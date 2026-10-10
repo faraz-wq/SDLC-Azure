@@ -40,6 +40,29 @@ def tui_cmd(
     run_tui(repo_root=repo_path)
 
 
+@app.command("run")
+def run_cmd(
+    ticket_id: Annotated[int, typer.Argument(help="ID of the work item to execute")],
+    dry_run: Annotated[
+        bool, typer.Option("--dry-run", help="Simulate without remote writes")
+    ] = False,
+    repo: Annotated[str | None, typer.Option("--repo", help="Path to repository root")] = None,
+) -> None:
+    """Run the SDLC agent on a work item."""
+    repo_path = Path(repo) if repo else Path.cwd()
+    sm = SessionManager(repo_root=repo_path)
+    console.print(f"[bold cyan]Starting SDLC Agent for Ticket #{ticket_id}...[/bold cyan]")
+    run = sm.run_ticket(ticket_id, dry_run=dry_run)
+    console.print(f"[bold]Status:[/bold] {run.status.value} (Stage: {run.stage})")
+
+    if run.pending_request:
+        req_type = run.pending_request.request_type
+        console.print(f"\n[bold yellow]Paused on Human Input ({req_type}):[/bold yellow]")
+        console.print(run.pending_request.prompt)
+    elif run.pr_url:
+        console.print(f"\n[bold green]Draft PR Created:[/bold green] {run.pr_url}")
+
+
 @app.command("init")
 def init_cmd(
     repo: Annotated[str | None, typer.Option("--repo", help="Path to repository root")] = None,
