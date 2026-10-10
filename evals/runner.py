@@ -165,12 +165,17 @@ class EvalCodingAgent(CodingAgent):
         )
 
 
-def evaluate_ticket(case: EvalCase, tmp_dir: Path) -> dict[str, Any]:
+def evaluate_ticket(case: EvalCase, tmp_dir: Path, live_llm: bool = False) -> dict[str, Any]:
     """Execute full SDLC pipeline against a benchmark test case."""
     start_time = time.time()
     source = EvalTicketSource(case)
     pr_host = EvalPRHost()
-    llm = EvalLLMClient()
+    if live_llm:
+        from agent.llm.opencode_client import OpenCodeClient
+
+        llm: LLMClient = OpenCodeClient()
+    else:
+        llm = EvalLLMClient()
     channel = AutoAnswerChannel(auto_approve=True)
     coding_agent = EvalCodingAgent()
 
@@ -241,9 +246,14 @@ def evaluate_ticket(case: EvalCase, tmp_dir: Path) -> dict[str, Any]:
     }
 
 
-def run_benchmark(output_json: Path | None = None) -> int:
+def run_benchmark(output_json: Path | None = None, live_llm: bool = False) -> int:
     """Run full benchmark across dataset and report results."""
-    console.print("\n[bold cyan]=== SDLC Azure Agent: Benchmark Suite ===[/bold cyan]")
+    mode_str = (
+        "[bold magenta](Live LLM Mode)[/bold magenta]"
+        if live_llm
+        else "[dim](Offline Deterministic Mode)[/dim]"
+    )
+    console.print(f"\n[bold cyan]=== SDLC Azure Agent: Benchmark Suite {mode_str} ===[/bold cyan]")
     console.print(f"Total benchmark cases: [bold green]{len(BENCHMARK_CASES)}[/bold green]\n")
 
     results: list[dict[str, Any]] = []
@@ -252,7 +262,7 @@ def run_benchmark(output_json: Path | None = None) -> int:
 
     with console.status("[yellow]Executing benchmark runs...[/yellow]", spinner="dots"):
         for case in BENCHMARK_CASES:
-            res = evaluate_ticket(case, tmp_workspace)
+            res = evaluate_ticket(case, tmp_workspace, live_llm=live_llm)
             results.append(res)
 
     # Render summary table
@@ -316,5 +326,10 @@ def run_benchmark(output_json: Path | None = None) -> int:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="SDLC Agent Benchmark Runner")
     parser.add_argument("--json", type=Path, help="Path to export JSON metrics")
+    parser.add_argument(
+        "--live",
+        action="store_true",
+        help="Execute against live LLM API instead of offline mocks",
+    )
     args = parser.parse_args()
-    sys.exit(run_benchmark(output_json=args.json))
+    sys.exit(run_benchmark(output_json=args.json, live_llm=args.live))

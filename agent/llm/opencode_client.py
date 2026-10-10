@@ -3,6 +3,7 @@
 import json
 import logging
 import os
+import time
 import urllib.request
 from pathlib import Path
 from typing import Any
@@ -21,12 +22,22 @@ class OpenCodeClient(LLMClient):
     def __init__(
         self,
         api_key: str | None = None,
-        base_url: str = "https://opencode.ai/zen/go/v1",
+        base_url: str | None = None,
         config_path: Path | None = None,
         timeout: int = 60,
     ) -> None:
-        self.api_key = api_key or os.getenv("OPENCODE_API_KEY", "")
-        self.base_url = base_url.rstrip("/")
+        self.api_key = (
+            api_key
+            or os.getenv("OPENCODE_API_KEY")
+            or os.getenv("LLM_API_KEY")
+            or os.getenv("OPENAI_API_KEY", "")
+        )
+        default_url = (
+            "https://openrouter.ai/api/v1"
+            if self.api_key.startswith("sk-or-")
+            else "https://opencode.ai/zen/go/v1"
+        )
+        self.base_url = (base_url or os.getenv("LLM_BASE_URL") or default_url).rstrip("/")
         self.timeout = timeout
 
         # Load models.yaml
@@ -44,6 +55,8 @@ class OpenCodeClient(LLMClient):
 
     def resolve_model(self, role: str) -> str:
         """Resolve role to concrete model identifier."""
+        if self.api_key.startswith("sk-or-"):
+            return "cohere/north-mini-code:free"
         model = self.roles.get(role, "glm-5.3-flash")
         if self.is_denylisted(model):
             raise ValueError(f"Model '{model}' assigned to role '{role}' is denylisted.")
@@ -76,18 +89,33 @@ class OpenCodeClient(LLMClient):
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
             "User-Agent": "ado-sdlc-agent/0.1.0",
+            "HTTP-Referer": "https://github.com/SDLC-Azure",
+            "X-Title": "Azure DevOps SDLC Agent",
             "x-opencode-session": effective_session,
         }
 
-        req = urllib.request.Request(
-            f"{self.base_url}/chat/completions",
-            data=json.dumps(payload).encode("utf-8"),
-            headers=headers,
-            method="POST",
-        )
+        req_data = json.dumps(payload).encode("utf-8")
+        max_retries = 3
+        last_err: Exception | None = None
+        data: dict[str, Any] = {}
 
-        with urllib.request.urlopen(req, timeout=self.timeout) as resp:
-            data: dict[str, Any] = json.loads(resp.read().decode())
+        for attempt in range(max_retries):
+            try:
+                req = urllib.request.Request(
+                    f"{self.base_url}/chat/completions",
+                    data=req_data,
+                    headers=headers,
+                    method="POST",
+                )
+                with urllib.request.urlopen(req, timeout=self.timeout) as resp:
+                    data = json.loads(resp.read().decode())
+                break
+            except Exception as e:
+                last_err = e
+                if attempt < max_retries - 1:
+                    time.sleep(1.5 * (attempt + 1))
+                    continue
+                raise last_err from None
 
         choices: list[dict[str, Any]] = data.get("choices", [])
         if not choices:
