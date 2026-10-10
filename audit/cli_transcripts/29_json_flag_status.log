@@ -1,0 +1,16 @@
+COMMAND: uv run python -m agent.ui.cli.main status --json --repo /Users/faraz/Projects/SDLC-Azure/audit/sandbox/fakerepo
+STDIN:
+
+EXIT_CODE: 2
+WALL_TIME: 0.826s
+
+STDOUT:
+
+
+STDERR:
+Usage: python -m agent.ui.cli.main status [OPTIONS]
+Try 'python -m agent.ui.cli.main status --help' for help.
+╭─ Error ──────────────────────────────────────────────────────────────────────╮
+│ No such option: --json                                                       │
+╰──────────────────────────────────────────────────────────────────────────────╯
+

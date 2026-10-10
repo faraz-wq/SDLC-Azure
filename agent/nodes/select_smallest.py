@@ -23,6 +23,10 @@ def select_smallest_node(state: RunState) -> dict[str, Any]:
     chosen_blast = state.blast_scores[min_idx]
     rejected_options = [opt for i, opt in enumerate(state.options) if i != min_idx]
 
+    from agent.core.config import AgentConfig
+
+    cfg = AgentConfig()
+
     plan = Plan(
         ticket_id=state.ticket_id,
         summary=chosen_option.description,
@@ -30,7 +34,7 @@ def select_smallest_node(state: RunState) -> dict[str, Any]:
         rejected_options=rejected_options,
         blast=chosen_blast,
         allowed_files=chosen_option.files_touched,
-        max_diff_lines=150,
+        max_diff_lines=cfg.max_diff_lines,
         expected_api_changes=chosen_option.expected_api_changes,
         test_targets=["tests/**/*"],
     )

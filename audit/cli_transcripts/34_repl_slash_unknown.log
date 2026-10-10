@@ -1,0 +1,30 @@
+COMMAND: uv run python -m agent.ui.cli.main chat --repo /Users/faraz/Projects/SDLC-Azure/audit/sandbox/fakerepo
+STDIN:
+/foobar
+/exit
+
+EXIT_CODE: 0
+WALL_TIME: 0.775s
+
+STDOUT:
+╭───────────────────────── Interactive SDLC Terminal ──────────────────────────╮
+│ Azure DevOps SDLC Agent (Claude Code / Antigravity style)                    │
+│                                                                              │
+│ Ask coding questions, inspect repo, or use slash commands:                   │
+│   /ado               Inspect Azure DevOps connection & repo                  │
+│   /ado setup <o> <p> Configure ADO organization, project, repo               │
+│   /run <id>          Run full SDLC pipeline on a work item                   │
+│   /run <id> --dry-run Run pipeline in safe local dry-run mode                │
+│   /status            List active sessions and worktrees                      │
+│   /clean <id>        Prune ticket session and delete worktree                │
+│   /help              Show command summary                                    │
+│   /exit or /quit    Exit                                                     │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+sdlc-agent > Unknown command: /foobar. Type /help for available commands.                    
+
+sdlc-agent > Goodbye!
+
+
+STDERR:
+

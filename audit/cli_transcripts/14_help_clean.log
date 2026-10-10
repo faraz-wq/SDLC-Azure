@@ -1,0 +1,24 @@
+COMMAND: uv run python -m agent.ui.cli.main clean --help
+STDIN:
+
+EXIT_CODE: 0
+WALL_TIME: 1.337s
+
+STDOUT:
+                                                                                
+ Usage: python -m agent.ui.cli.main clean [OPTIONS] {ticket_id}                 
+                                                                                
+ Clean up and remove a ticket session and its local worktree.                   
+                                                                                
+╭─ Arguments ──────────────────────────────────────────────────────────────────╮
+│ *    ticket_id      <int>  ID of the ticket session to clean [required]      │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────╮
+│ --repo        <str>  Path to repository root                                 │
+│ --help               Show this message and exit.                             │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+
+
+STDERR:
+

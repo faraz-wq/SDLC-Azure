@@ -35,12 +35,14 @@ class AzurePRHost(PRHost):
         repo: str | None = None,
         pat: str | None = None,
         dry_run: bool = False,
+        timeout: int = 60,
     ) -> None:
         self.org = org or os.getenv("AZURE_DEVOPS_ORG", "")
         self.project = project or os.getenv("AZURE_DEVOPS_PROJECT", "")
         self.repo = repo or os.getenv("AZURE_DEVOPS_REPO", "")
         self._pat = pat or os.getenv("AZURE_DEVOPS_PAT", "")
         self.dry_run = dry_run
+        self.timeout = timeout
         self.base_url = (
             f"https://dev.azure.com/{self.org}/{self.project}/_apis/git/repositories/{self.repo}"
         )
@@ -114,7 +116,7 @@ class AzurePRHost(PRHost):
         data = json.dumps(payload).encode("utf-8")
         req = urllib.request.Request(url, data=data, headers=self._headers(), method="POST")
 
-        with urllib.request.urlopen(req) as resp:
+        with urllib.request.urlopen(req, timeout=self.timeout) as resp:
             resp_data: dict[str, Any] = json.loads(resp.read().decode())
             pr_id = int(resp_data.get("pullRequestId", 0))
             pr_url = str(

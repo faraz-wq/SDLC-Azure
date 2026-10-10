@@ -182,6 +182,12 @@ class SessionManager:
             )
             return resp.text.strip()
         except Exception as e:
+            if "401" in str(e) or "Unauthorized" in str(e):
+                return (
+                    "**Authentication Required:** Could not communicate with AI assistant.\n\n"
+                    "Reason: HTTP 401 Unauthorized (Invalid or missing `OPENCODE_API_KEY`).\n"
+                    "Next step: Set your `OPENCODE_API_KEY` in `.env` to enable chat."
+                )
             return f"Error communicating with AI assistant: {e}"
 
     def execute_command(self, command_line: str) -> str:
@@ -319,7 +325,19 @@ class SessionManager:
                 t_id = int(args[0])
             except ValueError:
                 return f"Invalid ticket ID: `{args[0]}`."
+            if not self.project.get_ticket_run(t_id):
+                return f"⚠ Ticket session #{t_id} does not exist."
             self.clean_ticket(t_id, remove_worktree=True)
             return f"✔ Cleaned session and worktree for ticket #{t_id}."
+
+        import difflib
+
+        known_cmds = ["/help", "/ado", "/run", "/status", "/list", "/clean", "/exit", "/quit"]
+        matches = difflib.get_close_matches(cmd, known_cmds, n=1, cutoff=0.6)
+        if matches:
+            return (
+                f"Unknown command: `{cmd}`. Did you mean `{matches[0]}`?\n"
+                "Type `/help` for available commands."
+            )
 
         return f"Unknown command: `{cmd}`. Type `/help` for available commands."

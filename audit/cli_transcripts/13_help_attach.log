@@ -1,0 +1,24 @@
+COMMAND: uv run python -m agent.ui.cli.main attach --help
+STDIN:
+
+EXIT_CODE: 0
+WALL_TIME: 2.098s
+
+STDOUT:
+                                                                                
+ Usage: python -m agent.ui.cli.main attach [OPTIONS] {ticket_id}                
+                                                                                
+ Attach to and inspect an in-flight or waiting ticket session.                  
+                                                                                
+╭─ Arguments ──────────────────────────────────────────────────────────────────╮
+│ *    ticket_id      <int>  ID of the work item to inspect [required]         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────╮
+│ --repo        <str>  Path to repository root                                 │
+│ --help               Show this message and exit.                             │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+
+
+STDERR:
+

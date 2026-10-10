@@ -5,12 +5,22 @@ import pytest
 from langchain_core.runnables import RunnableConfig
 from langgraph.checkpoint.sqlite import SqliteSaver
 
-from agent.core.protocols import HumanChannel, LLMClient, LLMResult, PRHost, TicketSource
+from agent.core.protocols import (
+    CodingAgent,
+    HumanChannel,
+    LLMClient,
+    LLMResult,
+    PRHost,
+    TicketSource,
+)
 from agent.core.schemas import (
     BlastRadius,
+    CodingResult,
+    CodingTask,
     Comment,
     HumanRequest,
     HumanResponse,
+    Limits,
     Option,
     Plan,
     PRRef,
@@ -55,6 +65,11 @@ class MockPRHost(PRHost):
 
     def push_branch(self, branch: str) -> None:
         pass
+
+
+class FakeCodingAgent(CodingAgent):
+    def run(self, task: CodingTask, wt: Path, limits: Limits) -> CodingResult:
+        return CodingResult(iterations=1, tokens=50, final_diff="", success=True)
 
 
 class MockLLMClient(LLMClient):
@@ -174,6 +189,7 @@ def test_full_pipeline_execution_with_human_interrupts(tmp_path: Path) -> None:
         channel=channel,
         checkpointer=checkpointer,
         repo_root=tmp_path,
+        coding_agent=FakeCodingAgent(),
     )
 
     config: RunnableConfig = {"configurable": {"thread_id": "ado-777"}}

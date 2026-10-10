@@ -41,7 +41,7 @@ def test_live_opencode_completion() -> None:
     if not api_key:
         pytest.skip("OpenCode API key not available in environment.")
 
-    client = OpenCodeClient(api_key=api_key)
+    client = OpenCodeClient(api_key=api_key, timeout=15)
     res = client.complete(
         role="clarify",
         messages=[{"role": "user", "content": "Respond with the single word 'OK'."}],

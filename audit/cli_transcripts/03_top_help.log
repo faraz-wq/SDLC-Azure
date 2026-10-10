@@ -1,0 +1,33 @@
+COMMAND: uv run python -m agent.ui.cli.main --help
+STDIN:
+
+EXIT_CODE: 0
+WALL_TIME: 0.729s
+
+STDOUT:
+                                                                                
+ Usage: python -m agent.ui.cli.main [OPTIONS] COMMAND [ARGS]...                 
+                                                                                
+ Azure DevOps SDLC Agent CLI                                                    
+                                                                                
+╭─ Options ────────────────────────────────────────────────────────────────────╮
+│ --install-completion          Install completion for the current shell.      │
+│ --show-completion             Show completion for the current shell, to copy │
+│                               it or customize the installation.              │
+│ --help                        Show this message and exit.                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Commands ───────────────────────────────────────────────────────────────────╮
+│ chat    Launch the interactive Claude Code / Antigravity style CLI.          │
+│ tui     Launch the alternative full-screen Textual TUI.                      │
+│ run     Run the SDLC agent on a work item.                                   │
+│ init    Initialize .agent workspace in the target repository.                │
+│ list    List all tracked ticket sessions, feature branches, and statuses.    │
+│ status  List all tracked ticket sessions, feature branches, and statuses.    │
+│ attach  Attach to and inspect an in-flight or waiting ticket session.        │
+│ clean   Clean up and remove a ticket session and its local worktree.         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+
+
+STDERR:
+

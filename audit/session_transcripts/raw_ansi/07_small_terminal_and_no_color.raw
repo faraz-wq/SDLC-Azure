@@ -1,0 +1,41 @@
+╭───── Interactive SDLC Terminal ──────╮
+│ [1mAzure DevOps SDLC Agent[0m (Claude Code │
+│ / Antigravity style)                 │
+│                                      │
+│ Ask coding questions, inspect repo,  │
+│ or use slash commands:               │
+│   [1m/ado[0m               Inspect Azure   │
+│ DevOps connection & repo             │
+│   [1m/ado setup <o> <p>[0m Configure ADO   │
+│ organization, project, repo          │
+│   [1m/run <id>[0m          Run full SDLC   │
+│ pipeline on a work item              │
+│   [1m/run <id> --dry-run[0m Run pipeline   │
+│ in safe local dry-run mode           │
+│   [1m/status[0m            List active     │
+│ sessions and worktrees               │
+│   [1m/clean <id>[0m        Prune ticket    │
+│ session and delete worktree          │
+│   [1m/help[0m              Show command    │
+│ summary                              │
+│   [1m/exit[0m or [1m/quit[0m    Exit             │
+│                                      │
+╰──────────────────────────────────────╯
+[1msdlc-agent[0m [2m>[0m /help
+[1mAvailable Slash Commands:[0m               
+
+[1m • [0m[1m/help[0m: Show this command summary.    
+[1m • [0m[1m/ado[0m: Show current Azure DevOps      
+[1m   [0mconnection status.                   
+[1m • [0m[1m/ado setup <org> <project> [repo][0m:   
+[1m   [0mUpdate Azure DevOps details in [1m.env[0m. 
+[1m • [0m[1m/run <ticket_id> [--dry-run][0m: Run    
+[1m   [0mSDLC pipeline on a work item.        
+[1m • [0m[1m/status[0m or [1m/list[0m: List active ticket 
+[1m   [0msessions and branches.               
+[1m • [0m[1m/clean <ticket_id>[0m: Remove ticket    
+[1m   [0msession and local worktree.          
+[1m • [0m[1m/exit[0m or [1m/quit[0m: Exit the application.
+
+[1msdlc-agent[0m [2m>[0m /exit
+[2mGoodbye![0m

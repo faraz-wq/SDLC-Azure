@@ -1,0 +1,13 @@
+COMMAND: uv run agent --help
+STDIN:
+
+EXIT_CODE: 2
+WALL_TIME: 0.223s
+
+STDOUT:
+
+
+STDERR:
+error: Failed to spawn: agent
+  cause: No such file or directory (os error 2)
+

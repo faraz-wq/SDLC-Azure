@@ -1,0 +1,12 @@
+COMMAND: uv run python -m agent.ui.cli.main status --repo /Users/faraz/Projects/SDLC-Azure/audit/sandbox/fakerepo | head -n 1
+STDIN:
+
+EXIT_CODE: 0
+WALL_TIME: 0.633s
+
+STDOUT:
+                   Azure DevOps SDLC Agent - Active Sessions                   
+
+
+STDERR:
+

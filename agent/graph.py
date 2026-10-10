@@ -14,7 +14,7 @@ from langgraph.checkpoint.base import BaseCheckpointSaver
 from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
 
-from agent.core.protocols import HumanChannel, LLMClient, PRHost, TicketSource
+from agent.core.protocols import CodingAgent, HumanChannel, LLMClient, PRHost, TicketSource
 from agent.core.state import RunState
 from agent.nodes.approve_plan import approve_plan_node
 from agent.nodes.approve_pr import approve_pr_node
@@ -116,6 +116,7 @@ def create_full_sdlc_graph(
     channel: HumanChannel,
     checkpointer: BaseCheckpointSaver[Any] | None = None,
     repo_root: Path | None = None,
+    coding_agent: CodingAgent | None = None,
 ) -> CompiledStateGraph[RunState, Any, Any, Any]:
     """Build and compile the complete end-to-end SDLC state machine."""
     builder: StateGraph[RunState] = StateGraph(RunState)
@@ -139,7 +140,7 @@ def create_full_sdlc_graph(
         return write_tests_node(state, llm)
 
     def _implement(state: RunState) -> dict[str, Any]:
-        return implement_node(state, repo_root)
+        return implement_node(state, repo_root, coding_agent=coding_agent)
 
     def _approve_pr(state: RunState) -> dict[str, Any]:
         return approve_pr_node(state, channel)
@@ -183,10 +184,37 @@ def create_full_sdlc_graph(
     builder.add_edge("select_smallest", "approve_plan")
     builder.add_edge("approve_plan", "write_tests")
 
+    def _failed(state: RunState) -> dict[str, Any]:
+        return {"status": "failed", "stage": "failed"}
+
+    builder.add_node("failed", _failed)
+    builder.add_edge("failed", END)
+
     builder.add_edge("write_tests", "confirm_red")
     builder.add_edge("confirm_red", "implement")
-    builder.add_edge("implement", "verify")
-    builder.add_edge("verify", "approve_pr")
+
+    def _route_after_implement(s: RunState) -> str:
+        if s.error or s.stage == "failed":
+            return "failed"
+        return "verify"
+
+    builder.add_conditional_edges(
+        "implement",
+        _route_after_implement,
+        {"verify": "verify", "failed": "failed"},
+    )
+
+    def _route_after_verify(s: RunState) -> str:
+        if s.error or s.stage == "failed":
+            return "failed"
+        return "approve_pr"
+
+    builder.add_conditional_edges(
+        "verify",
+        _route_after_verify,
+        {"approve_pr": "approve_pr", "failed": "failed"},
+    )
+
     builder.add_edge("approve_pr", "raise_draft_pr")
     builder.add_edge("raise_draft_pr", END)
 

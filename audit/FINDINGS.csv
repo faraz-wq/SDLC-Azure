@@ -1,0 +1,24 @@
+ID,Title,Severity,Confidence,Category,Location,Effort
+SEC-001,scope_guard substring-match allows files outside approved plan,Critical,Verified,Security,agent/guards/scope_guard.py:42,S
+SEC-002,scope_guard substring bypass survives backslash normalisation,Critical,Verified,Security,agent/guards/scope_guard.py:37-42,S
+ARCH-001,Four complete pipeline nodes are non-functional stubs,High,Verified,Architecture/Functional,"agent/nodes/impact_analysis.py, confirm_red.py, verify.py, write_tests.py",M
+CODE-001,implement_node silently swallows all coding-agent failures,High,Verified,Code Quality,agent/nodes/implement.py:42-45,S
+DEVOPS-001,Zero CI/CD configuration,High,Verified,DevOps,repo root (absence),S
+SEC-003,secret_scrub does not catch short credentials without recognised key name,High,Verified,Security,agent/guards/secret_scrub.py:11-16,M
+ARCH-002,LangGraph dependency injection via closures prevents per-invocation dep swapping,High,Verified,Architecture,agent/graph.py:72-130,M
+ARCH-003,Full SDLC graph has no failure terminal — errors leave session stuck at running,High,Verified,Architecture,agent/graph.py:160-195,M
+SEC-004,push_branch is a no-op in live mode — PR creation will fail on ADO,High,Verified,Functional/Security,agent/connectors/pr_host_azure.py:55-69,M
+CODE-002,\r\n line endings in Python source files,Medium,Verified,Code Quality,"agent/nodes/clarify_score.py, agent/graph.py, others",S
+CODE-003,clarify_score_node defaults to score=8.0 on LLM parse failure silently skipping clarification,Medium,Verified,Code Quality/Functional,agent/nodes/clarify_score.py:76-90,S
+CODE-004,propose_options_node bare except swallows LLM errors proceeds with fabricated options,Medium,Verified,Code Quality,agent/nodes/propose_options.py:44-51,S
+CODE-005,AzureTicketSource.set_tag makes 2 extra HTTP calls (N+1),Medium,Verified,Performance,agent/connectors/ticket_source_azure.py:98-118,S
+CODE-006,new_replies_since uses marker body-substring match — fragile and spoofable,Medium,Verified,Security/Code Quality,agent/connectors/ticket_source_azure.py:121-130,S
+CODE-007,OpenCodeClient does not handle reasoning-model null content per ARCHITECTURE spec,Medium,Verified,Functional/Reliability,agent/llm/opencode_client.py:77-101,M
+CODE-008,OpenCodeClient has no HTTP timeout — violates AGENTS.md hard rule,Medium,Verified,Reliability,agent/llm/opencode_client.py:91-98,S
+CODE-009,AzureTicketSource and AzurePRHost urllib calls have no timeout,Medium,Verified,Reliability,"agent/connectors/ticket_source_azure.py (5 calls), pr_host_azure.py:117",S
+ARCH-004,plan.max_diff_lines hardcoded to 150 inconsistent with diff_cap default 300,Medium,Verified,Architecture,agent/nodes/select_smallest.py:39,S
+DOCS-001,ARCHITECTURE.md references evals/ LangSmith Podman auto_answer — none exist,Medium,Verified,Docs,docs/ARCHITECTURE.md vs repo root,S
+CODE-010,RunState.messages grows unboundedly — full list copied on every node transition,Low,Verified,Performance,Every node file,S
+UX-001,agent run blocks terminal synchronously with no progress indicator,Low,Verified,UX,agent/session/manager.py (run_ticket),M
+UX-002,TUI answer submission silently discards answers on widget query failure,Low,Verified,UX,agent/ui/tui/app.py (on_button_pressed),S
+

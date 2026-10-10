@@ -1,0 +1,12 @@
+COMMAND: uv run python -m agent.ui.cli.main clean 42 --repo /Users/faraz/Projects/SDLC-Azure/audit/sandbox/fakerepo </dev/null
+STDIN:
+
+EXIT_CODE: 0
+WALL_TIME: 0.630s
+
+STDOUT:
+✔ Cleaned session and worktree for ticket #42
+
+
+STDERR:
+

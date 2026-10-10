@@ -1,0 +1,14 @@
+COMMAND: uv run python -m agent.ui.cli.main --help | head -n 3
+STDIN:
+
+EXIT_CODE: 0
+WALL_TIME: 1.028s
+
+STDOUT:
+                                                                                
+ Usage: python -m agent.ui.cli.main [OPTIONS] COMMAND [ARGS]...                 
+                                                                                
+
+
+STDERR:
+

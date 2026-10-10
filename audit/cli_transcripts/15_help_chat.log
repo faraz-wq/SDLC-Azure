@@ -1,0 +1,21 @@
+COMMAND: uv run python -m agent.ui.cli.main chat --help
+STDIN:
+
+EXIT_CODE: 0
+WALL_TIME: 0.691s
+
+STDOUT:
+                                                                                
+ Usage: python -m agent.ui.cli.main chat [OPTIONS]                              
+                                                                                
+ Launch the interactive Claude Code / Antigravity style CLI.                    
+                                                                                
+╭─ Options ────────────────────────────────────────────────────────────────────╮
+│ --repo        <str>  Path to repository root                                 │
+│ --help               Show this message and exit.                             │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+
+
+STDERR:
+

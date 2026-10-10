@@ -1,0 +1,21 @@
+COMMAND: uv run python -m agent.ui.cli.main tui --help
+STDIN:
+
+EXIT_CODE: 0
+WALL_TIME: 0.691s
+
+STDOUT:
+                                                                                
+ Usage: python -m agent.ui.cli.main tui [OPTIONS]                               
+                                                                                
+ Launch the alternative full-screen Textual TUI.                                
+                                                                                
+╭─ Options ────────────────────────────────────────────────────────────────────╮
+│ --repo        <str>  Path to repository root                                 │
+│ --help               Show this message and exit.                             │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+
+
+STDERR:
+

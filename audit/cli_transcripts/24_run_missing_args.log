@@ -1,0 +1,16 @@
+COMMAND: uv run python -m agent.ui.cli.main run --repo /Users/faraz/Projects/SDLC-Azure/audit/sandbox/fakerepo
+STDIN:
+
+EXIT_CODE: 2
+WALL_TIME: 0.699s
+
+STDOUT:
+
+
+STDERR:
+Usage: python -m agent.ui.cli.main run [OPTIONS] {ticket_id}
+Try 'python -m agent.ui.cli.main run --help' for help.
+╭─ Error ──────────────────────────────────────────────────────────────────────╮
+│ Missing argument 'ticket_id'.                                                │
+╰──────────────────────────────────────────────────────────────────────────────╯
+

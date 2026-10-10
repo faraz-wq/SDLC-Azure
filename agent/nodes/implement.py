@@ -1,5 +1,6 @@
 """Implement node: works in isolated git worktree with caps, limits, and Pi coding agent."""
 
+import shutil
 from pathlib import Path
 from typing import Any
 
@@ -39,23 +40,32 @@ def implement_node(
         allowed_files=allowed,
         limits=Limits(max_iterations=1, timeout_seconds=180),
     )
+    error_msg: str | None = None
     try:
-        agent.run(task, wt=wt_path, limits=task.limits)
-    except Exception:
-        pass
+        res = agent.run(task, wt=wt_path, limits=task.limits)
+        if not res.success and shutil.which("pi") is not None:
+            error_msg = f"Coding agent returned failure for task {task.task_id}"
+    except Exception as e:
+        if shutil.which("pi") is not None:
+            error_msg = f"Coding agent error: {e}"
 
     diff_text = get_diff(wt_path)
     diff_lines = len(diff_text.splitlines())
     check_diff_cap(diff_lines, max_cap=300)
+
+    messages = [
+        *state.messages,
+        f"Implemented iteration {new_iteration} in worktree {wt_path} (branch: {branch_name}).",
+    ]
+    if error_msg:
+        messages.append(f"Warning: {error_msg}")
 
     return {
         "iteration": new_iteration,
         "worktree_path": str(wt_path),
         "branch_name": branch_name,
         "diff": diff_text,
-        "stage": "verify",
-        "messages": [
-            *state.messages,
-            f"Implemented iteration {new_iteration} in worktree {wt_path} (branch: {branch_name}).",
-        ],
+        "stage": "verify" if not error_msg else "failed",
+        "error": error_msg,
+        "messages": messages,
     }

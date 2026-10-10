@@ -62,7 +62,7 @@ class ChatMessageWidget(Static):
 
 
 class SDLCApp(App[None]):
-    """OpenCode / Claude Code style interactive conversational TUI for the SDLC Agent."""
+    """Interactive conversational TUI for the Azure DevOps SDLC Agent."""
 
     TITLE = "Azure DevOps SDLC Agent"
     SUB_TITLE = "Interactive Coding & SDLC Assistant"

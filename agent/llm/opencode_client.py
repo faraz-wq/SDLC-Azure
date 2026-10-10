@@ -23,9 +23,11 @@ class OpenCodeClient(LLMClient):
         api_key: str | None = None,
         base_url: str = "https://opencode.ai/zen/go/v1",
         config_path: Path | None = None,
+        timeout: int = 60,
     ) -> None:
         self.api_key = api_key or os.getenv("OPENCODE_API_KEY", "")
         self.base_url = base_url.rstrip("/")
+        self.timeout = timeout
 
         # Load models.yaml
         cfg_file = config_path or (Path(__file__).parent / "models.yaml")
@@ -84,7 +86,7 @@ class OpenCodeClient(LLMClient):
             method="POST",
         )
 
-        with urllib.request.urlopen(req) as resp:
+        with urllib.request.urlopen(req, timeout=self.timeout) as resp:
             data: dict[str, Any] = json.loads(resp.read().decode())
 
         choices: list[dict[str, Any]] = data.get("choices", [])

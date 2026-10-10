@@ -1,0 +1,16 @@
+COMMAND: uv run python -m agent.ui.cli.main run -5 --dry-run --repo /Users/faraz/Projects/SDLC-Azure/audit/sandbox/fakerepo
+STDIN:
+
+EXIT_CODE: 2
+WALL_TIME: 0.746s
+
+STDOUT:
+
+
+STDERR:
+Usage: python -m agent.ui.cli.main run [OPTIONS] {ticket_id}
+Try 'python -m agent.ui.cli.main run --help' for help.
+╭─ Error ──────────────────────────────────────────────────────────────────────╮
+│ No such option: -5                                                           │
+╰──────────────────────────────────────────────────────────────────────────────╯
+

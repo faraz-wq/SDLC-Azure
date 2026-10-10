@@ -1,0 +1,27 @@
+COMMAND: uv run python -m agent.ui.cli.main
+STDIN:
+
+EXIT_CODE: 0
+WALL_TIME: 1.004s
+
+STDOUT:
+╭───────────────────────── Interactive SDLC Terminal ──────────────────────────╮
+│ Azure DevOps SDLC Agent (Claude Code / Antigravity style)                    │
+│                                                                              │
+│ Ask coding questions, inspect repo, or use slash commands:                   │
+│   /ado               Inspect Azure DevOps connection & repo                  │
+│   /ado setup <o> <p> Configure ADO organization, project, repo               │
+│   /run <id>          Run full SDLC pipeline on a work item                   │
+│   /run <id> --dry-run Run pipeline in safe local dry-run mode                │
+│   /status            List active sessions and worktrees                      │
+│   /clean <id>        Prune ticket session and delete worktree                │
+│   /help              Show command summary                                    │
+│   /exit or /quit    Exit                                                     │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+sdlc-agent > 
+Exiting SDLC Agent. Goodbye!
+
+
+STDERR:
+

@@ -1,0 +1,12 @@
+COMMAND: uv run python -m agent.ui.cli.main status --repo /path/to/nonexistent/directory/xyz
+STDIN:
+
+EXIT_CODE: 0
+WALL_TIME: 0.633s
+
+STDOUT:
+No active ticket sessions found in workspace.
+
+
+STDERR:
+

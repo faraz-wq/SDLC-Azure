@@ -48,4 +48,3 @@ class PiCodingAgent(CodingAgent):
             final_diff=diff_text,
             success=success,
         )
-

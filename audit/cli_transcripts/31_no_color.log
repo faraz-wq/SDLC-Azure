@@ -1,0 +1,19 @@
+COMMAND: NO_COLOR=1 uv run python -m agent.ui.cli.main status --repo /Users/faraz/Projects/SDLC-Azure/audit/sandbox/fakerepo
+STDIN:
+
+EXIT_CODE: 0
+WALL_TIME: 0.841s
+
+STDOUT:
+                   Azure DevOps SDLC Agent - Active Sessions                    
+┏━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃           ┃               ┃               ┃         ┃        ┃ Pending       ┃
+┃ Ticket ID ┃ Title         ┃ Branch        ┃ Status  ┃ Stage  ┃ Action        ┃
+┡━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│        42 │ Work Item #42 │ agent/42-work │ running │ ingest │ None          │
+│         0 │ Work Item #0  │ agent/0-work  │ running │ ingest │ None          │
+└───────────┴───────────────┴───────────────┴─────────┴────────┴───────────────┘
+
+
+STDERR:
+

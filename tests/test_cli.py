@@ -57,11 +57,35 @@ def test_cli_attach_and_clean_commands(tmp_path: Path) -> None:
     assert "Ticket #88" in attach_res.stdout
     assert "Fix memory leak" in attach_res.stdout
 
-    # Clean
-    clean_res = runner.invoke(app, ["clean", "88", "--repo", str(tmp_path)])
+    # Clean with --yes
+    clean_res = runner.invoke(app, ["clean", "88", "--yes", "--repo", str(tmp_path)])
     assert clean_res.exit_code == 0
     assert "Cleaned session" in clean_res.stdout
+
+    # Clean non-existent should fail with code 1
+    clean_missing = runner.invoke(app, ["clean", "999", "--yes", "--repo", str(tmp_path)])
+    assert clean_missing.exit_code == 1
 
     # Status should now be empty
     status_res = runner.invoke(app, ["status", "--repo", str(tmp_path)])
     assert "No active ticket sessions found" in status_res.stdout
+
+
+def test_repl_slash_command_filtering_and_completion() -> None:
+    from agent.ui.cli.repl import extract_completion, filter_commands
+
+    # Bare slash lists all 8 commands
+    all_commands = filter_commands("/")
+    assert len(all_commands) == 8
+
+    # Specific slash prefix
+    run_commands = filter_commands("/r")
+    assert len(run_commands) == 2
+    assert run_commands[0][0] == "/run <id>"
+
+    # Non-slash input returns empty
+    assert filter_commands("hello") == []
+
+    # Extraction extracts base command with space when args needed
+    assert extract_completion("/run <id>") == "/run "
+    assert extract_completion("/ado") == "/ado"

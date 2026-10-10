@@ -1,0 +1,12 @@
+COMMAND: uv run python -m agent.ui.cli.main status --repo /Users/faraz/Projects/SDLC-Azure/audit/sandbox/fakerepo
+STDIN:
+
+EXIT_CODE: 0
+WALL_TIME: 0.642s
+
+STDOUT:
+No active ticket sessions found in workspace.
+
+
+STDERR:
+

@@ -1,0 +1,21 @@
+COMMAND: uv run python -m agent.ui.cli.main status --help
+STDIN:
+
+EXIT_CODE: 0
+WALL_TIME: 0.711s
+
+STDOUT:
+                                                                                
+ Usage: python -m agent.ui.cli.main status [OPTIONS]                            
+                                                                                
+ List all tracked ticket sessions, feature branches, and statuses.              
+                                                                                
+╭─ Options ────────────────────────────────────────────────────────────────────╮
+│ --repo        <str>  Path to repository root                                 │
+│ --help               Show this message and exit.                             │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+
+
+STDERR:
+

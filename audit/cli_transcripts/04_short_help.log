@@ -1,0 +1,16 @@
+COMMAND: uv run python -m agent.ui.cli.main -h
+STDIN:
+
+EXIT_CODE: 2
+WALL_TIME: 0.720s
+
+STDOUT:
+
+
+STDERR:
+Usage: python -m agent.ui.cli.main [OPTIONS] COMMAND [ARGS]...
+Try 'python -m agent.ui.cli.main --help' for help.
+╭─ Error ──────────────────────────────────────────────────────────────────────╮
+│ No such option: -h                                                           │
+╰──────────────────────────────────────────────────────────────────────────────╯
+

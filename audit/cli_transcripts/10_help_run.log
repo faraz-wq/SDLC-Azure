@@ -1,0 +1,25 @@
+COMMAND: uv run python -m agent.ui.cli.main run --help
+STDIN:
+
+EXIT_CODE: 0
+WALL_TIME: 0.712s
+
+STDOUT:
+                                                                                
+ Usage: python -m agent.ui.cli.main run [OPTIONS] {ticket_id}                   
+                                                                                
+ Run the SDLC agent on a work item.                                             
+                                                                                
+╭─ Arguments ──────────────────────────────────────────────────────────────────╮
+│ *    ticket_id      <int>  ID of the work item to execute [required]         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────╮
+│ --dry-run               Simulate without remote writes                       │
+│ --repo           <str>  Path to repository root                              │
+│ --help                  Show this message and exit.                          │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+
+
+STDERR:
+

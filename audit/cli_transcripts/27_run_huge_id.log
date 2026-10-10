@@ -1,0 +1,49 @@
+COMMAND: uv run python -m agent.ui.cli.main run 99999999999999999999999999999999999999 --dry-run --repo /Users/faraz/Projects/SDLC-Azure/audit/sandbox/fakerepo
+STDIN:
+
+EXIT_CODE: 1
+WALL_TIME: 0.807s
+
+STDOUT:
+Starting SDLC Agent for Ticket #99999999999999999999999999999999999999...
+
+
+STDERR:
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/faraz/Projects/SDLC-Azure/agent/ui/cli/main.py:66 in run_cmd          │
+│                                                                              │
+│    63 │   repo_path = Path(repo) if repo else Path.cwd()                     │
+│    64 │   sm = SessionManager(repo_root=repo_path)                           │
+│    65 │   console.print(f"[bold cyan]Starting SDLC Agent for Ticket          │
+│       #{ticket_id}...[/bold cyan]")                                          │
+│ ❱  66 │   run = sm.run_ticket(ticket_id, dry_run=dry_run)                    │
+│    67 │   console.print(f"[bold]Status:[/bold] {run.status.value} (Stage:    │
+│       {run.stage})")                                                         │
+│    68 │                                                                      │
+│    69 │   if run.pending_request:                                            │
+│                                                                              │
+│ /Users/faraz/Projects/SDLC-Azure/agent/session/manager.py:82 in run_ticket   │
+│                                                                              │
+│    79 │   def run_ticket(self, ticket_id: int, dry_run: bool = False) ->     │
+│       TicketRunRecord:                                                       │
+│    80 │   │   """Execute or resume the state machine for a work item."""     │
+│    81 │   │   self.init_project()                                            │
+│ ❱  82 │   │   run = self.project.get_ticket_run(ticket_id)                   │
+│    83 │   │   if not run:                                                    │
+│    84 │   │   │   run = TicketRunRecord(                                     │
+│    85 │   │   │   │   ticket_id=ticket_id,                                   │
+│                                                                              │
+│ /Users/faraz/Projects/SDLC-Azure/agent/session/project.py:73 in              │
+│ get_ticket_run                                                               │
+│                                                                              │
+│   70 │   │                                                                   │
+│   71 │   │   with sqlite3.connect(self.db_path) as conn:                     │
+│   72 │   │   │   cursor = conn.cursor()                                      │
+│ ❱ 73 │   │   │   cursor.execute("SELECT data FROM ticket_runs WHERE          │
+│      ticket_id = ?", (ticket_id,))                                           │
+│   74 │   │   │   row = cursor.fetchone()                                     │
+│   75 │   │   │   if not row:                                                 │
+│   76 │   │   │   │   return None                                             │
+╰──────────────────────────────────────────────────────────────────────────────╯
+OverflowError: Python int too large to convert to SQLite INTEGER
+

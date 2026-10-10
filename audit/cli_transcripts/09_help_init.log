@@ -1,0 +1,21 @@
+COMMAND: uv run python -m agent.ui.cli.main init --help
+STDIN:
+
+EXIT_CODE: 0
+WALL_TIME: 0.718s
+
+STDOUT:
+                                                                                
+ Usage: python -m agent.ui.cli.main init [OPTIONS]                              
+                                                                                
+ Initialize .agent workspace in the target repository.                          
+                                                                                
+╭─ Options ────────────────────────────────────────────────────────────────────╮
+│ --repo        <str>  Path to repository root                                 │
+│ --help               Show this message and exit.                             │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+
+
+STDERR:
+

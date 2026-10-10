@@ -40,7 +40,18 @@ def check_scope(
         matched = False
         for allowed in plan.allowed_files:
             clean_allowed = allowed.strip().replace("\\", "/")
-            if fnmatch.fnmatch(norm_file, clean_allowed) or clean_allowed in norm_file:
+            # 1. Standard glob or direct equality match
+            if fnmatch.fnmatch(norm_file, clean_allowed):
+                matched = True
+                break
+            # 2. Support ** globbing for immediate children (e.g. tests/**/*.cs -> tests/*.cs)
+            reduced_glob = clean_allowed.replace("**/", "")
+            if "**/" in clean_allowed and fnmatch.fnmatch(norm_file, reduced_glob):
+                matched = True
+                break
+            # 3. Path prefix / directory boundary match
+            clean_dir = clean_allowed.rstrip("/*")
+            if clean_dir and (norm_file == clean_dir or norm_file.startswith(clean_dir + "/")):
                 matched = True
                 break
 

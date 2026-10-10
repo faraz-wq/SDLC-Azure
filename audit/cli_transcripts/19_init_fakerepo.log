@@ -1,0 +1,13 @@
+COMMAND: uv run python -m agent.ui.cli.main init --repo /Users/faraz/Projects/SDLC-Azure/audit/sandbox/fakerepo
+STDIN:
+
+EXIT_CODE: 0
+WALL_TIME: 0.647s
+
+STDOUT:
+✔ Initialized agent workspace at: 
+/Users/faraz/Projects/SDLC-Azure/audit/sandbox/fakerepo/.agent
+
+
+STDERR:
+

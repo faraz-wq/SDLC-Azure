@@ -1,0 +1,16 @@
+COMMAND: uv run python -m agent.ui.cli.main run -- --dry-run
+STDIN:
+
+EXIT_CODE: 2
+WALL_TIME: 0.857s
+
+STDOUT:
+
+
+STDERR:
+Usage: python -m agent.ui.cli.main run [OPTIONS] {ticket_id}
+Try 'python -m agent.ui.cli.main run --help' for help.
+╭─ Error ──────────────────────────────────────────────────────────────────────╮
+│ Invalid value for 'ticket_id': '--dry-run' is not a valid int.               │
+╰──────────────────────────────────────────────────────────────────────────────╯
+

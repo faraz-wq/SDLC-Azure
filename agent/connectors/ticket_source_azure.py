@@ -27,11 +27,13 @@ class AzureTicketSource(TicketSource):
         project: str | None = None,
         pat: str | None = None,
         dry_run: bool = False,
+        timeout: int = 60,
     ) -> None:
         self.org = org or os.getenv("AZURE_DEVOPS_ORG", "")
         self.project = project or os.getenv("AZURE_DEVOPS_PROJECT", "")
         self._pat = pat or os.getenv("AZURE_DEVOPS_PAT", "")
         self.dry_run = dry_run
+        self.timeout = timeout
         self.base_url = f"https://dev.azure.com/{self.org}/{self.project}"
 
     def _headers(self) -> dict[str, str]:
@@ -100,7 +102,7 @@ class AzureTicketSource(TicketSource):
         url = f"{self.base_url}/_apis/wit/workitems/{id}?$expand=all&api-version=7.1"
         req = urllib.request.Request(url, headers=self._headers())
 
-        with urllib.request.urlopen(req) as resp:
+        with urllib.request.urlopen(req, timeout=self.timeout) as resp:
             raw_wi: dict[str, Any] = json.loads(resp.read().decode())
 
         # Fetch comments
@@ -110,7 +112,7 @@ class AzureTicketSource(TicketSource):
         raw_comments: list[dict[str, Any]] = []
         try:
             req_c = urllib.request.Request(comments_url, headers=self._headers())
-            with urllib.request.urlopen(req_c) as resp_c:
+            with urllib.request.urlopen(req_c, timeout=self.timeout) as resp_c:
                 c_data: dict[str, Any] = json.loads(resp_c.read().decode())
                 raw_comments = c_data.get("comments", [])
         except Exception as e:
@@ -129,7 +131,7 @@ class AzureTicketSource(TicketSource):
         payload = json.dumps({"text": clean_body}).encode("utf-8")
         req = urllib.request.Request(url, data=payload, headers=self._headers(), method="POST")
 
-        with urllib.request.urlopen(req) as resp:
+        with urllib.request.urlopen(req, timeout=self.timeout) as resp:
             if resp.status not in (200, 201):
                 logger.error(f"Failed to post comment to ticket {id}: status {resp.status}")
 
@@ -165,7 +167,7 @@ class AzureTicketSource(TicketSource):
             method="PATCH",
         )
 
-        with urllib.request.urlopen(req) as resp:
+        with urllib.request.urlopen(req, timeout=self.timeout) as resp:
             if resp.status not in (200, 201):
                 logger.error(f"Failed to set tag on ticket {id}: status {resp.status}")
 

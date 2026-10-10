@@ -1,0 +1,16 @@
+COMMAND: uv run python -m agent.ui.cli.main attach notanint --repo /Users/faraz/Projects/SDLC-Azure/audit/sandbox/fakerepo
+STDIN:
+
+EXIT_CODE: 2
+WALL_TIME: 0.708s
+
+STDOUT:
+
+
+STDERR:
+Usage: python -m agent.ui.cli.main attach [OPTIONS] {ticket_id}
+Try 'python -m agent.ui.cli.main attach --help' for help.
+╭─ Error ──────────────────────────────────────────────────────────────────────╮
+│ Invalid value for 'ticket_id': 'notanint' is not a valid int.                │
+╰──────────────────────────────────────────────────────────────────────────────╯
+

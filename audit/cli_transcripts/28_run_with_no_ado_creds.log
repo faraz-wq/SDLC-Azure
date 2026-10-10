@@ -1,0 +1,212 @@
+COMMAND: uv run python -m agent.ui.cli.main run 42 --dry-run --repo /Users/faraz/Projects/SDLC-Azure/audit/sandbox/fakerepo
+STDIN:
+
+EXIT_CODE: 1
+WALL_TIME: 1.780s
+
+STDOUT:
+Starting SDLC Agent for Ticket #42...
+
+
+STDERR:
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/faraz/Projects/SDLC-Azure/agent/ui/cli/main.py:66 in run_cmd          │
+│                                                                              │
+│    63 │   repo_path = Path(repo) if repo else Path.cwd()                     │
+│    64 │   sm = SessionManager(repo_root=repo_path)                           │
+│    65 │   console.print(f"[bold cyan]Starting SDLC Agent for Ticket          │
+│       #{ticket_id}...[/bold cyan]")                                          │
+│ ❱  66 │   run = sm.run_ticket(ticket_id, dry_run=dry_run)                    │
+│    67 │   console.print(f"[bold]Status:[/bold] {run.status.value} (Stage:    │
+│       {run.stage})")                                                         │
+│    68 │                                                                      │
+│    69 │   if run.pending_request:                                            │
+│                                                                              │
+│ /Users/faraz/Projects/SDLC-Azure/agent/session/manager.py:124 in run_ticket  │
+│                                                                              │
+│   121 │   │   │   result = graph.invoke(None, config=config)                 │
+│   122 │   │   else:                                                          │
+│   123 │   │   │   initial = RunState(run_id=f"run-{ticket_id}",              │
+│       ticket_id=ticket_id)                                                   │
+│ ❱ 124 │   │   │   result = graph.invoke(initial, config=config)              │
+│   125 │   │                                                                  │
+│   126 │   │   conn.close()                                                   │
+│   127                                                                        │
+│                                                                              │
+│ /Users/faraz/Projects/SDLC-Azure/.venv/lib/python3.12/site-packages/langgrap │
+│ h/pregel/main.py:3978 in invoke                                              │
+│                                                                              │
+│   3975 │   │   │   │   │   chunks.append(chunk)                              │
+│   3976 │   │   else:                                                         │
+│   3977 │   │   │   # v1: collect interrupts from updates stream              │
+│ ❱ 3978 │   │   │   for chunk in self.stream(                                 │
+│   3979 │   │   │   │   input,                                                │
+│   3980 │   │   │   │   config,                                               │
+│   3981 │   │   │   │   context=context,                                      │
+│                                                                              │
+│ /Users/faraz/Projects/SDLC-Azure/.venv/lib/python3.12/site-packages/langgrap │
+│ h/pregel/main.py:3034 in stream                                              │
+│                                                                              │
+│   3031 │   │   │   │   while loop.tick():                                    │
+│   3032 │   │   │   │   │   for task in loop.match_cached_writes():           │
+│   3033 │   │   │   │   │   │   loop.output_writes(task.id, task.writes,      │
+│        cached=True)                                                          │
+│ ❱ 3034 │   │   │   │   │   for _ in runner.tick(                             │
+│   3035 │   │   │   │   │   │   [t for t in loop.tasks.values() if not        │
+│        t.writes],                                                            │
+│   3036 │   │   │   │   │   │   timeout=self.step_timeout,                    │
+│   3037 │   │   │   │   │   │   get_waiter=get_waiter,                        │
+│                                                                              │
+│ /Users/faraz/Projects/SDLC-Azure/.venv/lib/python3.12/site-packages/langgrap │
+│ h/pregel/_runner.py:208 in tick                                              │
+│                                                                              │
+│   205 │   │   │   t = tasks[0]                                               │
+│   206 │   │   │   scheduled_error_handler = False                            │
+│   207 │   │   │   try:                                                       │
+│ ❱ 208 │   │   │   │   run_with_retry(                                        │
+│   209 │   │   │   │   │   t,                                                 │
+│   210 │   │   │   │   │   retry_policy,                                      │
+│   211 │   │   │   │   │   configurable={                                     │
+│                                                                              │
+│ /Users/faraz/Projects/SDLC-Azure/.venv/lib/python3.12/site-packages/langgrap │
+│ h/pregel/_retry.py:617 in run_with_retry                                     │
+│                                                                              │
+│   614 │   │   │   # clear any writes from previous attempts                  │
+│   615 │   │   │   task.writes.clear()                                        │
+│   616 │   │   │   # run the task                                             │
+│ ❱ 617 │   │   │   return task.proc.invoke(task.input, config)                │
+│   618 │   │   except ParentCommand as exc:                                   │
+│   619 │   │   │   ns: str = config[CONF][CONFIG_KEY_CHECKPOINT_NS]           │
+│   620 │   │   │   cmd = exc.args[0]                                          │
+│                                                                              │
+│ /Users/faraz/Projects/SDLC-Azure/.venv/lib/python3.12/site-packages/langgrap │
+│ h/_internal/_runnable.py:707 in invoke                                       │
+│                                                                              │
+│   704 │   │   │   │   │   │   run = None                                     │
+│   705 │   │   │   │   │   # run in context                                   │
+│   706 │   │   │   │   │   with set_config_context(config, run) as context:   │
+│ ❱ 707 │   │   │   │   │   │   input = context.run(step.invoke, input,        │
+│       config, **kwargs)                                                      │
+│   708 │   │   │   │   else:                                                  │
+│   709 │   │   │   │   │   input = step.invoke(input, config)                 │
+│   710 │   │   # finish the root run                                          │
+│                                                                              │
+│ /Users/faraz/Projects/SDLC-Azure/.venv/lib/python3.12/site-packages/langgrap │
+│ h/_internal/_runnable.py:447 in invoke                                       │
+│                                                                              │
+│   444 │   │   │   else:                                                      │
+│   445 │   │   │   │   run_manager.on_chain_end(ret)                          │
+│   446 │   │   else:                                                          │
+│ ❱ 447 │   │   │   ret = self.func(*args, **kwargs)                           │
+│   448 │   │   if self.recurse and isinstance(ret, Runnable):                 │
+│   449 │   │   │   return ret.invoke(input, config)                           │
+│   450 │   │   return ret                                                     │
+│                                                                              │
+│ /Users/faraz/Projects/SDLC-Azure/agent/graph.py:124 in _ingest               │
+│                                                                              │
+│   121 │   builder: StateGraph[RunState] = StateGraph(RunState)               │
+│   122 │                                                                      │
+│   123 │   def _ingest(state: RunState) -> dict[str, Any]:                    │
+│ ❱ 124 │   │   return ingest_node(state, ticket_source)                       │
+│   125 │                                                                      │
+│   126 │   def _clarify_score(state: RunState) -> dict[str, Any]:             │
+│   127 │   │   return clarify_score_node(state, llm)                          │
+│                                                                              │
+│ /Users/faraz/Projects/SDLC-Azure/agent/nodes/ingest.py:13 in ingest_node     │
+│                                                                              │
+│   10                                                                         │
+│   11 def ingest_node(state: RunState, ticket_source: TicketSource) ->        │
+│      dict[str, Any]:                                                         │
+│   12 │   """Ingest work item, scrub sensitive text, and prepare for rubric   │
+│      scoring."""                                                             │
+│ ❱ 13 │   raw_ticket = ticket_source.get_ticket(state.ticket_id)              │
+│   14 │                                                                       │
+│   15 │   # Scrub all text before storing in graph state                      │
+│   16 │   clean_desc = scrub_secrets(raw_ticket.description)                  │
+│                                                                              │
+│ /Users/faraz/Projects/SDLC-Azure/agent/connectors/ticket_source_azure.py:103 │
+│ in get_ticket                                                                │
+│                                                                              │
+│   100 │   │   url =                                                          │
+│       f"{self.base_url}/_apis/wit/workitems/{id}?$expand=all&api-version=7.1 │
+│       "                                                                      │
+│   101 │   │   req = urllib.request.Request(url, headers=self._headers())     │
+│   102 │   │                                                                  │
+│ ❱ 103 │   │   with urllib.request.urlopen(req) as resp:                      │
+│   104 │   │   │   raw_wi: dict[str, Any] = json.loads(resp.read().decode())  │
+│   105 │   │                                                                  │
+│   106 │   │   # Fetch comments                                               │
+│                                                                              │
+│ /Users/faraz/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/p │
+│ ython3.12/urllib/request.py:215 in urlopen                                   │
+│                                                                              │
+│    212 │   │   _opener = opener = build_opener()                             │
+│    213 │   else:                                                             │
+│    214 │   │   opener = _opener                                              │
+│ ❱  215 │   return opener.open(url, data, timeout)                            │
+│    216                                                                       │
+│    217 def install_opener(opener):                                           │
+│    218 │   global _opener                                                    │
+│                                                                              │
+│ /Users/faraz/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/p │
+│ ython3.12/urllib/request.py:521 in open                                      │
+│                                                                              │
+│    518 │   │   meth_name = protocol+"_response"                              │
+│    519 │   │   for processor in self.process_response.get(protocol, []):     │
+│    520 │   │   │   meth = getattr(processor, meth_name)                      │
+│ ❱  521 │   │   │   response = meth(req, response)                            │
+│    522 │   │                                                                 │
+│    523 │   │   return response                                               │
+│    524                                                                       │
+│                                                                              │
+│ /Users/faraz/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/p │
+│ ython3.12/urllib/request.py:630 in http_response                             │
+│                                                                              │
+│    627 │   │   # According to RFC 2616, "2xx" code indicates that the        │
+│        client's                                                              │
+│    628 │   │   # request was successfully received, understood, and          │
+│        accepted.                                                             │
+│    629 │   │   if not (200 <= code < 300):                                   │
+│ ❱  630 │   │   │   response = self.parent.error(                             │
+│    631 │   │   │   │   'http', request, response, code, msg, hdrs)           │
+│    632 │   │                                                                 │
+│    633 │   │   return response                                               │
+│                                                                              │
+│ /Users/faraz/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/p │
+│ ython3.12/urllib/request.py:559 in error                                     │
+│                                                                              │
+│    556 │   │                                                                 │
+│    557 │   │   if http_err:                                                  │
+│    558 │   │   │   args = (dict, 'default', 'http_error_default') +          │
+│        orig_args                                                             │
+│ ❱  559 │   │   │   return self._call_chain(*args)                            │
+│    560                                                                       │
+│    561 # XXX probably also want an abstract factory that knows when it makes │
+│    562 # sense to skip a superclass in favor of a subclass and when it might │
+│                                                                              │
+│ /Users/faraz/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/p │
+│ ython3.12/urllib/request.py:492 in _call_chain                               │
+│                                                                              │
+│    489 │   │   handlers = chain.get(kind, ())                                │
+│    490 │   │   for handler in handlers:                                      │
+│    491 │   │   │   func = getattr(handler, meth_name)                        │
+│ ❱  492 │   │   │   result = func(*args)                                      │
+│    493 │   │   │   if result is not None:                                    │
+│    494 │   │   │   │   return result                                         │
+│    495                                                                       │
+│                                                                              │
+│ /Users/faraz/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/p │
+│ ython3.12/urllib/request.py:639 in http_error_default                        │
+│                                                                              │
+│    636                                                                       │
+│    637 class HTTPDefaultErrorHandler(BaseHandler):                           │
+│    638 │   def http_error_default(self, req, fp, code, msg, hdrs):           │
+│ ❱  639 │   │   raise HTTPError(req.full_url, code, msg, hdrs, fp)            │
+│    640                                                                       │
+│    641 class HTTPRedirectHandler(BaseHandler):                               │
+│    642 │   # maximum number of redirections to any single URL                │
+╰──────────────────────────────────────────────────────────────────────────────╯
+HTTPError: HTTP Error 404: Not Found
+[NOTE] During task with name 'ingest' and id 
+'c2d11753-223b-56ae-02f0-ffbe06b0998c'
+

@@ -1,0 +1,22 @@
+[36m╭─[0m[36m────────────────────────────────────────────[0m[36m Interactive SDLC Terminal [0m[36m─────────────────────────────────────────────[0m[36m─╮[0m
+[36m│[0m [1;36mAzure DevOps SDLC Agent[0m (Claude Code / Antigravity style)                                                            [36m│[0m
+[36m│[0m                                                                                                                      [36m│[0m
+[36m│[0m Ask coding questions, inspect repo, or use slash commands:                                                           [36m│[0m
+[36m│[0m   [1;36m/ado[0m               Inspect Azure DevOps connection & repo                                                          [36m│[0m
+[36m│[0m   [1;36m/ado setup <o> <p>[0m Configure ADO organization, project, repo                                                       [36m│[0m
+[36m│[0m   [1;36m/run <id>[0m          Run full SDLC pipeline on a work item                                                           [36m│[0m
+[36m│[0m   [1;36m/run <id> --dry-run[0m Run pipeline in safe local dry-run mode                                                        [36m│[0m
+[36m│[0m   [1;36m/status[0m            List active sessions and worktrees                                                              [36m│[0m
+[36m│[0m   [1;36m/clean <id>[0m        Prune ticket session and delete worktree                                                        [36m│[0m
+[36m│[0m   [1;36m/help[0m              Show command summary                                                                            [36m│[0m
+[36m│[0m   [1;36m/exit[0m or [1;36m/quit[0m    Exit                                                                                             [36m│[0m
+[36m│[0m                                                                                                                      [36m│[0m
+[36m╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯[0m
+[1;32msdlc-agent[0m [2m>[0m /clean 42
+✔ Cleaned session and worktree for ticket #42.                                                                          
+
+[1;32msdlc-agent[0m [2m>[0m /clean invalid_id
+Invalid ticket ID: [1;36;40minvalid_id[0m.                                                                                          
+
+[1;32msdlc-agent[0m [2m>[0m /exit
+[2mGoodbye![0m
