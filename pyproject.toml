@@ -46,3 +46,6 @@ reportUnknownVariableType = false
 testpaths = ["tests"]
 pythonpath = ["."]
 asyncio_mode = "auto"
+markers = [
+    "integration: integration tests against live services",
+]
