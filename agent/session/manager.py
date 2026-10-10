@@ -2,6 +2,7 @@
 
 import shutil
 import sqlite3
+import subprocess
 from pathlib import Path
 from typing import Any
 
@@ -152,19 +153,34 @@ class SessionManager:
 
     def chat(self, message: str) -> str:
         """Send a message to the AI coding assistant and get a response."""
-        llm = OpenCodeClient()
         prompt = (
             "You are an expert Azure DevOps SDLC coding assistant. "
-            "You help the developer inspect code, run SDLC workflows on Azure DevOps work items, "
+            "Help the developer inspect code, run SDLC workflows on Azure DevOps work items, "
             "and navigate their repository.\n\n"
             f"User message: {message}"
         )
+        # Try local Pi agent first (which is authenticated and active)
         try:
-            res = llm.complete(
+            pi_bin = shutil.which("pi") or "pi"
+            res = subprocess.run(
+                [pi_bin, "-p", prompt],
+                capture_output=True,
+                text=True,
+                timeout=60,
+            )
+            if res.returncode == 0 and res.stdout.strip():
+                return res.stdout.strip()
+        except Exception:
+            pass
+
+        # Fallback to OpenCodeClient
+        llm = OpenCodeClient()
+        try:
+            resp = llm.complete(
                 role="clarify",
                 messages=[{"role": "user", "content": prompt}],
             )
-            return res.text.strip()
+            return resp.text.strip()
         except Exception as e:
             return f"Error communicating with AI assistant: {e}"
 

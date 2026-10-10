@@ -22,18 +22,29 @@ console = Console()
 
 @app.callback()
 def main_callback(ctx: typer.Context) -> None:
-    """Default entrypoint: launch interactive TUI if no subcommand given."""
+    """Default entrypoint: launch interactive CLI REPL if no subcommand given."""
     if ctx.invoked_subcommand is None:
-        from agent.ui.tui.app import run_tui
+        from agent.ui.cli.repl import run_interactive_cli
 
-        run_tui()
+        run_interactive_cli()
+
+
+@app.command("chat")
+def chat_cmd(
+    repo: Annotated[str | None, typer.Option("--repo", help="Path to repository root")] = None,
+) -> None:
+    """Launch the interactive Claude Code / Antigravity style CLI."""
+    from agent.ui.cli.repl import run_interactive_cli
+
+    repo_path = Path(repo) if repo else Path.cwd()
+    run_interactive_cli(repo_root=repo_path)
 
 
 @app.command("tui")
 def tui_cmd(
     repo: Annotated[str | None, typer.Option("--repo", help="Path to repository root")] = None,
 ) -> None:
-    """Launch the interactive OpenCode-style Terminal UI."""
+    """Launch the alternative full-screen Textual TUI."""
     from agent.ui.tui.app import run_tui
 
     repo_path = Path(repo) if repo else Path.cwd()
