@@ -21,7 +21,7 @@ BENCHMARK_CASES: list[EvalCase] = [
     # --- Archetype A: Localized UI & Behavior Fixes ---
     EvalCase(
         ticket_id=4966,
-        title="[IM-11517] App Header and Navigation Remain Fixed After Welcome Scrolls Away",
+        title="[SDLC-101] App Header and Navigation Remain Fixed After Welcome Scrolls Away",
         description=(
             "As a user scrolling the main view, the app header and navigation bar "
             "should remain pinned to the top of the viewport once the welcome panel scrolls away."
@@ -38,7 +38,7 @@ BENCHMARK_CASES: list[EvalCase] = [
     ),
     EvalCase(
         ticket_id=4952,
-        title="[IM-11424] Indicate Updated Solutions with 'New' Tag",
+        title="[SDLC-102] Indicate Updated Solutions with 'New' Tag",
         description=(
             "Display a visual 'NEW' badge next to any solution card that was updated "
             "within the last 7 calendar days."
@@ -55,7 +55,7 @@ BENCHMARK_CASES: list[EvalCase] = [
     ),
     EvalCase(
         ticket_id=5001,
-        title="[IM-12113] Benefits Widget - Progress Bar Correction",
+        title="[SDLC-103] Benefits Widget - Progress Bar Correction",
         description=(
             "The progress bar in the benefits widget calculates percentage based on "
             "completed steps / total steps. Guard against division by zero when total is 0."
@@ -73,7 +73,7 @@ BENCHMARK_CASES: list[EvalCase] = [
     # --- Archetype B: Vague / Under-specified Specifications ---
     EvalCase(
         ticket_id=4969,
-        title="[IM-11565] Update Login Error Message for Inactive Members",
+        title="[SDLC-201] Update Login Error Message for Inactive Members",
         description=(
             "Update the login failure screen when a user account is inactive. "
             "It needs to show a better message."
@@ -86,7 +86,7 @@ BENCHMARK_CASES: list[EvalCase] = [
     ),
     EvalCase(
         ticket_id=11619,
-        title="not able to receive emails to a valid email id",
+        title="[SDLC-202] Not able to receive emails to a valid destination email address",
         description=(
             "Users report that sending emails from the chat button does not reach "
             "valid destination addresses."
@@ -99,7 +99,7 @@ BENCHMARK_CASES: list[EvalCase] = [
     ),
     EvalCase(
         ticket_id=10922,
-        title="[IM-7445] Voicemails are not working in TEST",
+        title="[SDLC-203] Voicemails are failing in test environment",
         description="Voicemails are failing when tested in the test deployment environment.",
         acceptance_criteria=[],
         archetype="vague_spec",
@@ -110,7 +110,7 @@ BENCHMARK_CASES: list[EvalCase] = [
     # --- Archetype C: API & Backend Contract Changes ---
     EvalCase(
         ticket_id=11595,
-        title="when email is selected as valid contact getting 200 error with failed response",
+        title="[SDLC-301] Email validation returns HTTP 200 with failed response payload",
         description=(
             "Selecting email contact validation returns HTTP 200 with an internal failure "
             "payload instead of HTTP 422 Unprocessable Entity with error details."
@@ -127,7 +127,7 @@ BENCHMARK_CASES: list[EvalCase] = [
     ),
     EvalCase(
         ticket_id=10923,
-        title="[IM-7446] Deduplicate Multiple Clicks on Save in Activity Log",
+        title="[SDLC-302] Deduplicate Multiple Clicks on Save in Activity Log",
         description=(
             "Rapid multiple clicks on the Save button create duplicate activity log "
             "entries for the same disposition."
@@ -147,14 +147,14 @@ BENCHMARK_CASES: list[EvalCase] = [
     ),
     EvalCase(
         ticket_id=10943,
-        title="[IM-12704] Disable System Generated SMS for LA- Tier",
+        title="[SDLC-303] Disable System Generated SMS for Restricted Tier",
         description=(
             "Suppress automated background SMS job execution for all members enrolled "
-            "in the LA- Tier cohort."
+            "in the restricted cohort."
         ),
         acceptance_criteria=[
             "Check cohort code in notification worker before dispatching SMS",
-            "Log skipped notification with reason 'Cohort suppression: LA- Tier'",
+            "Log skipped notification with reason 'Cohort suppression: Restricted Tier'",
             "Ensure other cohort members still receive scheduled notifications",
         ],
         archetype="api_contract",
@@ -165,10 +165,10 @@ BENCHMARK_CASES: list[EvalCase] = [
     # --- Archetype D: Cross-Cutting & Domain Rules ---
     EvalCase(
         ticket_id=11680,
-        title="The need that is added from the CHI order after assessment is missing",
+        title="[SDLC-401] Care need item added from assessment order is missing in care plan",
         description=(
-            "When a CHI order is placed following an assessment with caregiver need ordered, "
-            "the caregiver need fails to propagate into the Social Care Plan."
+            "When a service order is placed following an assessment with care need ordered, "
+            "the need item fails to propagate into the Social Care Plan."
         ),
         acceptance_criteria=[
             "Assessment order completion triggers care plan item generation",
@@ -186,7 +186,7 @@ BENCHMARK_CASES: list[EvalCase] = [
     ),
     EvalCase(
         ticket_id=11620,
-        title="Referral created with blank primary coverage is missing from management filters",
+        title="[SDLC-402] Blank coverage records missing from management filters",
         description=(
             "Referral search query filters omit records where PrimaryCoverageId is NULL "
             "due to an inner join on Coverage table."
@@ -206,7 +206,7 @@ BENCHMARK_CASES: list[EvalCase] = [
     ),
     EvalCase(
         ticket_id=5011,
-        title="[IM-12216] Replace Long/Short Term with Need Subcategory",
+        title="[SDLC-403] Replace Long/Short Term boolean flags with Need Subcategory enum",
         description=(
             "Replace deprecated LongTerm / ShortTerm boolean flags with NeedSubcategory "
             "enum across solution models."

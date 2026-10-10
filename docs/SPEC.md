@@ -21,7 +21,7 @@ Requirements for the Azure DevOps SDLC agent. Design lives in `docs/ARCHITECTURE
 
 - LangGraph state machine with human-approval interrupts (after the plan and before the PR), plus LangSmith tracing.
 - Least-privilege PAT, tests in Podman, dry-run mode (local worktree/test execution permitted, zero remote writes or pushes), and no secrets in model context.
-- Built on a free ADO org with a sample repo (.NET + React), not Groundgame's tickets or repos.
+- Built on a free ADO org with a sample repo (.NET + React), not employer tickets or repos.
 - Inference through an OpenCode Go subscription only; no other provider keys. Pi is the coding agent (invoked via CLI), and our agent uses internal tools and connectors. LSPs provide syntax and type diagnostics in the inner loop.
 - Scope for v1: C#, JavaScript (React), Azure DevOps and Playwright only. The design stays open to additional stacks through adapter interfaces.
 
