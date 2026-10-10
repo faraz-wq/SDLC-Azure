@@ -104,3 +104,34 @@ def test_session_manager_api(tmp_path: Path) -> None:
     # clean_ticket
     sm.clean_ticket(101)
     assert sm.project.get_ticket_run(101) is None
+
+
+def test_session_manager_slash_commands(tmp_path: Path) -> None:
+    sm = SessionManager(repo_root=tmp_path)
+    sm.init_project()
+
+    # /help
+    help_out = sm.execute_command("/help")
+    assert "/ado" in help_out
+    assert "/run" in help_out
+    assert "/status" in help_out
+
+    # /status empty
+    status_out = sm.execute_command("/status")
+    assert "No active or recorded ticket sessions" in status_out
+
+    # /ado status
+    ado_out = sm.execute_command("/ado")
+    assert "Azure DevOps Status" in ado_out
+
+    # /ado setup
+    setup_out = sm.execute_command("/ado setup myorg myproject myrepo")
+    assert "Azure DevOps configuration updated" in setup_out
+    env_content = (tmp_path / ".env").read_text()
+    assert "AZURE_DEVOPS_ORG=myorg" in env_content
+    assert "AZURE_DEVOPS_PROJECT=myproject" in env_content
+    assert "AZURE_DEVOPS_REPO=myrepo" in env_content
+
+    # unknown command
+    unk_out = sm.execute_command("/unknown")
+    assert "Unknown command" in unk_out

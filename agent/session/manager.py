@@ -149,3 +149,161 @@ class SessionManager:
 
         self.project.save_ticket_run(run)
         return run
+
+    def chat(self, message: str) -> str:
+        """Send a message to the AI coding assistant and get a response."""
+        llm = OpenCodeClient()
+        prompt = (
+            "You are an expert Azure DevOps SDLC coding assistant. "
+            "You help the developer inspect code, run SDLC workflows on Azure DevOps work items, "
+            "and navigate their repository.\n\n"
+            f"User message: {message}"
+        )
+        try:
+            res = llm.complete(
+                role="clarify",
+                messages=[{"role": "user", "content": prompt}],
+            )
+            return res.text.strip()
+        except Exception as e:
+            return f"Error communicating with AI assistant: {e}"
+
+    def execute_command(self, command_line: str) -> str:
+        """Execute a slash command and return the formatted response."""
+        parts = command_line.strip().split()
+        if not parts:
+            return ""
+
+        cmd = parts[0].lower()
+        args = parts[1:]
+
+        if cmd in ("/help", "/?"):
+            return (
+                "**Available Slash Commands:**\n"
+                "- `/help`: Show this command summary.\n"
+                "- `/ado`: Show current Azure DevOps connection status.\n"
+                "- `/ado setup <org> <project> [repo]`: Update Azure DevOps details in `.env`.\n"
+                "- `/run <ticket_id> [--dry-run]`: Run SDLC pipeline on a work item.\n"
+                "- `/status` or `/list`: List active ticket sessions and branches.\n"
+                "- `/clean <ticket_id>`: Remove ticket session and local worktree.\n"
+                "- `/exit` or `/quit`: Exit the application."
+            )
+
+        if cmd == "/ado":
+            if len(args) >= 3 and args[0].lower() == "setup":
+                org = args[1]
+                project = args[2]
+                repo = args[3] if len(args) > 3 else project
+                env_path = self.repo_root / ".env"
+                lines: list[str] = []
+                if env_path.exists():
+                    lines = env_path.read_text().splitlines()
+
+                keys_to_set = {
+                    "AZURE_DEVOPS_ORG": org,
+                    "AZURE_DEVOPS_PROJECT": project,
+                    "AZURE_DEVOPS_REPO": repo,
+                }
+                new_lines: list[str] = []
+                found_keys: set[str] = set()
+                for line in lines:
+                    k = line.split("=", 1)[0].strip()
+                    if k in keys_to_set:
+                        new_lines.append(f"{k}={keys_to_set[k]}")
+                        found_keys.add(k)
+                    else:
+                        new_lines.append(line)
+                for k, v in keys_to_set.items():
+                    if k not in found_keys:
+                        new_lines.append(f"{k}={v}")
+
+                env_path.write_text("\n".join(new_lines) + "\n")
+                return (
+                    "✔ Azure DevOps configuration updated:\n"
+                    f"- Org: `{org}`\n- Project: `{project}`\n- Repo: `{repo}`"
+                )
+
+            # Check status
+            import os
+
+            org = os.getenv("AZURE_DEVOPS_ORG", "")
+            project = os.getenv("AZURE_DEVOPS_PROJECT", "")
+            repo = os.getenv("AZURE_DEVOPS_REPO", "")
+            pat = os.getenv("AZURE_DEVOPS_PAT", "")
+            pat_status = f"Configured ({len(pat)} chars)" if pat else "Missing"
+
+            status_msg = (
+                f"**Azure DevOps Status:**\n"
+                f"- Organization: `{org or 'Not set'}`\n"
+                f"- Project: `{project or 'Not set'}`\n"
+                f"- Repository: `{repo or 'Not set'}`\n"
+                f"- PAT Status: {pat_status}\n"
+            )
+
+            # Test connection if credentials exist
+            if org and project and pat:
+                try:
+                    AzureTicketSource()
+                    status_msg += "\n✔ Connection verified successfully."
+                except Exception as e:
+                    status_msg += f"\n⚠ Connection test failed: {e}"
+            else:
+                status_msg += "\nTo configure, run `/ado setup <org> <project> [repo]`."
+            return status_msg
+
+        if cmd == "/run":
+            if not args:
+                return "Usage: `/run <ticket_id> [--dry-run]`"
+            try:
+                ticket_id = int(args[0])
+            except ValueError:
+                return f"Invalid ticket ID: `{args[0]}`. Must be an integer."
+
+            dry_run = "--dry-run" in args
+            record = self.run_ticket(ticket_id, dry_run=dry_run)
+            output = (
+                f"**Ticket #{record.ticket_id} Execution Result:**\n"
+                f"- Title: {record.title}\n"
+                f"- Status: `{record.status.value}`\n"
+                f"- Stage: `{record.stage}`\n"
+                f"- Branch: `{record.branch_name}`\n"
+            )
+            if record.pending_request:
+                output += (
+                    f"\n⚠ **Waiting on Human Input ({record.pending_request.request_type}):**\n"
+                    f"{record.pending_request.prompt}\n"
+                )
+                if record.pending_request.options:
+                    output += "\nOptions:\n" + "\n".join(
+                        f"- {o}" for o in record.pending_request.options
+                    )
+            elif record.pr_url:
+                output += f"\n✔ **Draft PR Created:** {record.pr_url}"
+            return output
+
+        if cmd in ("/status", "/list"):
+            tickets = self.list_tickets()
+            if not tickets:
+                return "No active or recorded ticket sessions found in workspace."
+            lines = ["**Active Sessions:**"]
+            for t in tickets:
+                pending = (
+                    f" (Waiting: {t.pending_request.request_type})" if t.pending_request else ""
+                )
+                branch_info = f"Branch: `{t.branch_name}`"
+                lines.append(
+                    f"- `#{t.ticket_id}` [{t.status.value}] {t.title} - {branch_info}{pending}"
+                )
+            return "\n".join(lines)
+
+        if cmd == "/clean":
+            if not args:
+                return "Usage: `/clean <ticket_id>`"
+            try:
+                t_id = int(args[0])
+            except ValueError:
+                return f"Invalid ticket ID: `{args[0]}`."
+            self.clean_ticket(t_id, remove_worktree=True)
+            return f"✔ Cleaned session and worktree for ticket #{t_id}."
+
+        return f"Unknown command: `{cmd}`. Type `/help` for available commands."
