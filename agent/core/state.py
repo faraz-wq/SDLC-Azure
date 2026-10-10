@@ -11,4 +11,3 @@ class RunState(BaseModel):
     messages: list[str] = Field(default_factory=list)
     status: str = "pending"
     clarification_answers: dict[str, str] = Field(default_factory=dict)
-

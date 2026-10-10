@@ -310,10 +310,10 @@ The registry tracks all tickets in flight, their branch allocations, and lifecyc
 class TicketRunRecord(BaseModel):
     ticket_id: int
     title: str
-    branch_name: str                        # agent/<id>-<slug>
-    worktree_path: str                      # .agent/worktrees/<id>
-    status: SessionStatus                   # running, waiting_on_human, done, failed, aborted
-    stage: str                              # ingest, clarify, plan, implement, verify, pr, complete
+    branch_name: str  # agent/<id>-<slug>
+    worktree_path: str  # .agent/worktrees/<id>
+    status: SessionStatus  # running, waiting_on_human, done, failed, aborted
+    stage: str  # ingest, clarify, plan, implement, verify, pr, complete
     pr_id: int | None = None
     pr_url: str | None = None
     pending_request: HumanRequest | None = None
