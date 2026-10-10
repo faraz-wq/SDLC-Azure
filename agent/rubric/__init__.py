@@ -1,0 +1,1 @@
+"""Ticket rubric package."""

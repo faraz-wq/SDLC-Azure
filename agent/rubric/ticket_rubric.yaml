@@ -1,0 +1,14 @@
+threshold: 7.0
+criteria:
+  problem_clarity:
+    weight: 0.3
+    description: "Is the problem clearly stated with context on current vs expected behavior?"
+  acceptance_criteria:
+    weight: 0.3
+    description: "Are acceptance criteria testable and unambiguous?"
+  technical_constraints:
+    weight: 0.2
+    description: "Are necessary API contracts, data models, or component targets specified?"
+  reproduction_or_example:
+    weight: 0.2
+    description: "Are reproduction steps or concrete examples provided?"
