@@ -40,10 +40,7 @@ flowchart TD
   1. Remove substring `in` check.
   2. Implement strict path boundary matching:
      ```python
-     boundary_match = (
-         norm_file == clean_allowed
-         or norm_file.startswith(clean_allowed.rstrip("/") + "/")
-     )
+     boundary_match = norm_file == clean_allowed or norm_file.startswith(clean_allowed.rstrip("/") + "/")
      if fnmatch.fnmatch(norm_file, clean_allowed) or boundary_match:
          matched = True
          break

@@ -2,9 +2,7 @@ from agent.guards.secret_scrub import scrub_secrets
 
 
 def test_scrub_azure_devops_pat() -> None:
-    fake_pat = (
-        "SampleFakeAzureDevOpsPatStringForUnitTestingScrubberGuards1234567890abcdef"
-    )
+    fake_pat = "SampleFakeAzureDevOpsPatStringForUnitTestingScrubberGuards1234567890abcdef"
     text = f"Using PAT authorization: {fake_pat} for API call"
     scrubbed = scrub_secrets(text)
     assert fake_pat not in scrubbed
