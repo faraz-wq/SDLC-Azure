@@ -54,3 +54,8 @@ data/
 # Environment and secrets
 .env
 .env.*
+*.local
+
+# Audit throwaway dirs
+audit/sandbox/
+audit/scratch/
