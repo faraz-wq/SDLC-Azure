@@ -78,14 +78,58 @@ The agent executes a structured, multi-stage state machine designed to minimize 
 ## Prerequisites & Installation
 
 - **Python 3.12+**
-- [`uv`](https://github.com/astral-sh/uv) (recommended package manager)
+- [`uv`](https://github.com/astral-sh/uv) (recommended) or `pip` / `pipx`
+
+### 1. Global Installation (Recommended)
+
+Install globally on any system to get the `agent` command in your terminal:
+
+**Using `uv` (Fastest, Cross-Platform):**
+```bash
+uv tool install git+https://github.com/faraz-wq/SDLC-Azure.git
+```
+
+**Using `pip` / `pipx`:**
+```bash
+pipx install git+https://github.com/faraz-wq/SDLC-Azure.git
+# or
+pip install git+https://github.com/faraz-wq/SDLC-Azure.git
+```
+
+**From a Local Clone (macOS / Linux):**
+```bash
+git clone https://github.com/faraz-wq/SDLC-Azure.git
+cd SDLC-Azure
+./scripts/install.sh
+```
+
+**From a Local Clone (Windows PowerShell):**
+```powershell
+git clone https://github.com/faraz-wq/SDLC-Azure.git
+cd SDLC-Azure
+.\scripts\install.ps1
+```
+
+### 2. Uninstallation
+
+**Using `uv` / `pipx` / `pip`:**
+```bash
+uv tool uninstall ado-sdlc-agent
+# or
+pipx uninstall ado-sdlc-agent
+# or
+pip uninstall -y ado-sdlc-agent
+```
+
+**Using Provided Scripts:**
+- macOS / Linux: `./scripts/uninstall.sh`
+- Windows PowerShell: `.\scripts\uninstall.ps1`
+
+### 3. Local Development Setup
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/SDLC-Azure.git
+git clone https://github.com/faraz-wq/SDLC-Azure.git
 cd SDLC-Azure
-
-# Install dependencies and setup environment
 uv sync
 ```
 
