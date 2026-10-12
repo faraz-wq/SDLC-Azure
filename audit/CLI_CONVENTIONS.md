@@ -20,7 +20,7 @@ This document defines tool-wide standards for streams, exit codes, output format
 - **STDOUT:** Reserved strictly for successful command payload data:
   - Rich tables (`agent status`)
   - Machine-readable JSON (`--json`)
-  - Confirmation status messages (`✔ Initialized...`)
+  - Confirmation status messages (` Initialized...`)
 - **STDERR:** Reserved exclusively for:
   - Error boxes and diagnostic messages
   - Interactive spinner / progress animations

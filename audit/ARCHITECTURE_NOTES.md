@@ -16,34 +16,34 @@ ARCHITECTURE.md describes a complete LangGraph state machine with:
 ```mermaid
 flowchart TD
     START([START]) --> ingest
-    ingest["ingest_node\n✓ REAL: fetches ticket, scrubs secrets"]
+    ingest["ingest_node\n[PASS] REAL: fetches ticket, scrubs secrets"]
     ingest --> clarify_score
-    clarify_score["clarify_score_node\n✓ REAL: LLM scoring + question gen\n⚠ fallback: score=8.0 on parse fail"]
+    clarify_score["clarify_score_node\n[PASS] REAL: LLM scoring + question gen\n[WARN] fallback: score=8.0 on parse fail"]
     clarify_score -->|score < 7.0| post_questions
     clarify_score -->|score >= 7.0| impact_analysis
-    post_questions["post_questions_node\n✓ REAL: queues HumanRequest\n⚡ INTERRUPT"]
+    post_questions["post_questions_node\n[PASS] REAL: queues HumanRequest\n[INTERRUPT] INTERRUPT"]
     post_questions --> impact_analysis
-    impact_analysis["impact_analysis_node\n✗ STUB: static message, no CodeIndex"]
+    impact_analysis["impact_analysis_node\n[FAIL] STUB: static message, no CodeIndex"]
     impact_analysis --> propose_options
-    propose_options["propose_options_node\n~ REAL: LLM call\n⚠ bare except → fabricated fallback"]
+    propose_options["propose_options_node\n~ REAL: LLM call\n[WARN] bare except → fabricated fallback"]
     propose_options --> blast_score
-    blast_score["blast_score_node\n✓ REAL: formula-based scoring"]
+    blast_score["blast_score_node\n[PASS] REAL: formula-based scoring"]
     blast_score --> select_smallest
-    select_smallest["select_smallest_node\n✓ REAL: picks min score, builds Plan\n⚠ max_diff_lines=150 hardcoded"]
+    select_smallest["select_smallest_node\n[PASS] REAL: picks min score, builds Plan\n[WARN] max_diff_lines=150 hardcoded"]
     select_smallest --> approve_plan
-    approve_plan["approve_plan_node\n✓ REAL: queues plan approval\n⚡ INTERRUPT"]
+    approve_plan["approve_plan_node\n[PASS] REAL: queues plan approval\n[INTERRUPT] INTERRUPT"]
     approve_plan --> write_tests
-    write_tests["write_tests_node\n✗ STUB: emits comment strings only"]
+    write_tests["write_tests_node\n[FAIL] STUB: emits comment strings only"]
     write_tests --> confirm_red
-    confirm_red["confirm_red_node\n✗ STUB: always returns red_confirmed=True\n  without running any tests"]
+    confirm_red["confirm_red_node\n[FAIL] STUB: always returns red_confirmed=True\n  without running any tests"]
     confirm_red --> implement
-    implement["implement_node\n~ REAL: invokes PiCodingAgent\n⚠ bare except → empty diff success\n⚠ Pi binary likely not installed"]
+    implement["implement_node\n~ REAL: invokes PiCodingAgent\n[WARN] bare except → empty diff success\n[WARN] Pi binary likely not installed"]
     implement --> verify
-    verify["verify_node\n✗ STUB: hardcoded TestReport passed=1\n✓ REAL: scope_guard called\n⚠ SEC-001: guard bypassable"]
+    verify["verify_node\n[FAIL] STUB: hardcoded TestReport passed=1\n[PASS] REAL: scope_guard called\n[WARN] SEC-001: guard bypassable"]
     verify --> approve_pr
-    approve_pr["approve_pr_node\n✓ REAL: queues PR approval\n⚡ INTERRUPT"]
+    approve_pr["approve_pr_node\n[PASS] REAL: queues PR approval\n[INTERRUPT] INTERRUPT"]
     approve_pr --> raise_draft_pr
-    raise_draft_pr["raise_draft_pr_node\n✓ REAL: calls PRHost.create_draft_pr\n⚠ push_branch is a no-op in live mode"]
+    raise_draft_pr["raise_draft_pr_node\n[PASS] REAL: calls PRHost.create_draft_pr\n[WARN] push_branch is a no-op in live mode"]
     raise_draft_pr --> END([END])
 
     style impact_analysis fill:#ff9999
@@ -54,9 +54,9 @@ flowchart TD
 ```
 
 **Legend:**
-- 🟥 Red: Complete stub — no real work performed
-- 🟧 Orange: Partial — real external call made but with silent failure mode
-- ✓ Green (unlabelled): Functionally correct
+- [RED] Red: Complete stub — no real work performed
+- [ORANGE] Orange: Partial — real external call made but with silent failure mode
+- [PASS] Green (unlabelled): Functionally correct
 
 ---
 
@@ -99,7 +99,7 @@ UI layer (cli, tui)
     └── session/ (SessionManager, ProjectManager)
             └── core/ (schemas, state, protocols, config)
             └── connectors/ (ado, pr_host)
-    NO direct imports: nodes, adapters, connectors from UI ✓
+    NO direct imports: nodes, adapters, connectors from UI [PASS]
 
 graph.py
     └── nodes/* ──────────── core/

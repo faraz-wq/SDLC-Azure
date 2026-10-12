@@ -127,7 +127,7 @@ def init_cmd(
     repo_path = Path(repo) if repo else Path.cwd()
     sm = SessionManager(repo_root=repo_path)
     ctx = sm.init_project()
-    console.print(f"[green]✔ Initialized agent workspace at:[/green] {ctx.dot_agent_dir}")
+    console.print(f"[green]Initialized agent workspace at:[/green] {ctx.dot_agent_dir}")
 
 
 @app.command("status")
@@ -236,7 +236,7 @@ def clean_cmd(
             raise typer.Exit(code=0)
 
     sm.clean_ticket(ticket_id, remove_worktree=True)
-    console.print(f"[green]✔ Cleaned session and worktree for ticket #{ticket_id}[/green]")
+    console.print(f"[green]Cleaned session and worktree for ticket #{ticket_id}[/green]")
 
 
 if __name__ == "__main__":

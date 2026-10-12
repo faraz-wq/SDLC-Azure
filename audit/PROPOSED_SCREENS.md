@@ -58,7 +58,7 @@ sdlc-agent > /clean 42
 │ Paths:     .agent/worktrees/42/                                                  │
 │ Database:  Record removed from .agent/sessions.sqlite                            │
 │                                                                                   │
-│ ⚠ This action is permanent and cannot be undone.                                  │
+│ [WARN] This action is permanent and cannot be undone.                                  │
 ╰───────────────────────────────────────────────────────────────────────────────────╯
 Are you sure you want to delete this session and worktree? [y/N]: █
 ```
@@ -112,7 +112,7 @@ sdlc-agent > █
 sdlc-agent > /run 42
 ⠸ Running SDLC Agent pipeline on Ticket #42 (Stage: ingest)... ^C
 Interrupt signal received. Cancelling in-flight task...
-✔ Ingestion cancelled safely. State saved to checkpoint.
+ Ingestion cancelled safely. State saved to checkpoint.
 Run `/run 42` to resume from this step.
 
 sdlc-agent [main] > █

@@ -153,7 +153,7 @@ class SDLCApp(App[None]):
                     yield ChatMessageWidget(
                         author="Agent",
                         content=(
-                            "👋 Welcome to the **Azure DevOps SDLC Agent**!\n\n"
+                            "Welcome to the **Azure DevOps SDLC Agent**!\n\n"
                             "You are in an active interactive coding session. Ask questions, "
                             "inspect code, or use slash commands:\n\n"
                             "- `/ado`: Inspect or verify Azure DevOps connection\n"
@@ -208,7 +208,7 @@ class SDLCApp(App[None]):
         if record.status == SessionStatus.WAITING_ON_HUMAN and record.pending_request:
             req = record.pending_request
             rtype = req.request_type.upper()
-            header = f"[bold yellow]⚠ TICKET #{record.ticket_id} ({rtype}):[/bold yellow]"
+            header = f"[bold yellow]TICKET #{record.ticket_id} ({rtype}):[/bold yellow]"
             pane.mount(Static(f"{header}\n{req.prompt}"))
             if req.options:
                 for idx, opt in enumerate(req.options):
@@ -282,7 +282,7 @@ class SDLCApp(App[None]):
             chat_scroll.mount(
                 ChatMessageWidget(
                     author="System",
-                    content=f"✔ Submitted answers for Ticket #{self.active_ticket.ticket_id}.",
+                    content=f"Submitted answers for Ticket #{self.active_ticket.ticket_id}.",
                     is_user=False,
                 )
             )

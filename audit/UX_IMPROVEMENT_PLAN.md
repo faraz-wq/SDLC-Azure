@@ -13,17 +13,17 @@ Before/after terminal screens, implementation efforts, and rollout priorities.
 - **Before:**
   ```text
   sdlc-agent > /clean 42
-  ✔ Cleaned session and worktree for ticket #42.
+   Cleaned session and worktree for ticket #42.
   ```
 - **After:**
   ```text
   sdlc-agent > /clean 42
-  ⚠ Are you sure you want to delete session and worktree for Ticket #42? [y/N]: n
+  [WARN] Are you sure you want to delete session and worktree for Ticket #42? [y/N]: n
   Action cancelled.
 
   sdlc-agent > /clean 42
-  ⚠ Are you sure you want to delete session and worktree for Ticket #42? [y/N]: y
-  ✔ Cleaned session and worktree for Ticket #42.
+  [WARN] Are you sure you want to delete session and worktree for Ticket #42? [y/N]: y
+   Cleaned session and worktree for Ticket #42.
   ```
 
 ---

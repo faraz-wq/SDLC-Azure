@@ -241,7 +241,7 @@ class SessionManager:
 
                 env_path.write_text("\n".join(new_lines) + "\n")
                 return (
-                    "✔ Azure DevOps configuration updated:\n"
+                    "Azure DevOps configuration updated:\n"
                     f"- Org: `{org}`\n- Project: `{project}`\n- Repo: `{repo}`"
                 )
 
@@ -266,9 +266,9 @@ class SessionManager:
             if org and project and pat:
                 try:
                     AzureTicketSource()
-                    status_msg += "\n✔ Connection verified successfully."
+                    status_msg += "\nConnection verified successfully."
                 except Exception as e:
-                    status_msg += f"\n⚠ Connection test failed: {e}"
+                    status_msg += f"\nConnection test failed: {e}"
             else:
                 status_msg += "\nTo configure, run `/ado setup <org> <project> [repo]`."
             return status_msg
@@ -291,8 +291,9 @@ class SessionManager:
                 f"- Branch: `{record.branch_name}`\n"
             )
             if record.pending_request:
+                req_type = record.pending_request.request_type
                 output += (
-                    f"\n⚠ **Waiting on Human Input ({record.pending_request.request_type}):**\n"
+                    f"\n[WAITING] **Waiting on Human Input ({req_type}):**\n"
                     f"{record.pending_request.prompt}\n"
                 )
                 if record.pending_request.options:
@@ -300,7 +301,7 @@ class SessionManager:
                         f"- {o}" for o in record.pending_request.options
                     )
             elif record.pr_url:
-                output += f"\n✔ **Draft PR Created:** {record.pr_url}"
+                output += f"\n**Draft PR Created:** {record.pr_url}"
             return output
 
         if cmd in ("/status", "/list"):
@@ -326,9 +327,9 @@ class SessionManager:
             except ValueError:
                 return f"Invalid ticket ID: `{args[0]}`."
             if not self.project.get_ticket_run(t_id):
-                return f"⚠ Ticket session #{t_id} does not exist."
+                return f"Ticket session #{t_id} does not exist."
             self.clean_ticket(t_id, remove_worktree=True)
-            return f"✔ Cleaned session and worktree for ticket #{t_id}."
+            return f"Cleaned session and worktree for ticket #{t_id}."
 
         import difflib
 

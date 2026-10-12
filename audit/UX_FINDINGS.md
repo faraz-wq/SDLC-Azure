@@ -17,7 +17,7 @@ Evidence:
   Transcript: 06_in_session_clean_command.md
   User types: `/clean 42`
   Output:
-    ✔ Cleaned session and worktree for ticket #42.
+     Cleaned session and worktree for ticket #42.
   Behavior: Deletes directory .agent/worktrees/42 and removes database row immediately.
 Reproduction:
   1. Launch `uv run python -m agent.ui.cli.main chat`

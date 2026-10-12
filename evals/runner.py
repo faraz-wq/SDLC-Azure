@@ -285,8 +285,8 @@ def run_benchmark(output_json: Path | None = None, live_llm: bool = False) -> in
             else "[bold red]FAIL[/bold red]"
         )
         clarify_sym = "[yellow]YES[/yellow]" if r["clarified"] else "[dim]NO[/dim]"
-        match_sym = "[green]✔[/green]" if r["clarify_match"] else "[red]✘[/red]"
-        pr_sym = "[green]✔[/green]" if r["pr_created"] else "[red]✘[/red]"
+        match_sym = "[green]YES[/green]" if r["clarify_match"] else "[red]NO[/red]"
+        pr_sym = "[green]YES[/green]" if r["pr_created"] else "[red]NO[/red]"
 
         if r["outcome"] == "PASS":
             passed_count += 1

@@ -33,7 +33,7 @@ Tool-wide behavioral standards for interactive sessions (`agent chat` & `agent t
 ## 3. Color & Glyph Policy with Accessibility Fallbacks
 
 - **Semantic Colors:**
-  - `Green`: Completed stages, successful checks (`✔`), done tickets
+  - `Green`: Completed stages, successful checks (``), done tickets
   - `Yellow`: Paused states (`waiting_on_human`), questions pending, warnings
   - `Cyan`: Informational headers, slash commands, prompt tokens
   - `Red`: Errors, destructive operations (`/clean`), failed test reports

@@ -48,15 +48,15 @@ $$ \text{Weighted Grade} = (3.0 \times 0.20) + (4.0 \times 0.15) + (4.0 \times 0
 
 ## Per-Persona Verdicts
 
-- **First-Time User:** **FAIL (Verdict: ✗ NO)**  
+- **First-Time User:** **FAIL (Verdict: [FAIL] NO)**  
   *Why:* The user sees the welcome box and types a natural query like *"Review this repo"*. It spins for 2 seconds and prints `Error communicating with AI assistant: HTTP Error 401: Unauthorized` with no hint that `OPENCODE_API_KEY` or `AZURE_DEVOPS_PAT` must be configured in `.env`.
-- **Daily Power User:** **FAIL (Verdict: ✗ NO)**  
+- **Daily Power User:** **FAIL (Verdict: [FAIL] NO)**  
   *Why:* No tab completion for commands, no `@file` syntax, multiline code snippets cannot be pasted without accidental immediate submission, and no persistent branch/model status bar exists.
-- **Cautious / Security-Minded User:** **FAIL (Verdict: ✗ NO)**  
+- **Cautious / Security-Minded User:** **FAIL (Verdict: [FAIL] NO)**  
   *Why:* The tool has no consent boundary or confirmation prompt when running `/clean` or modifying files; permissions are neither displayed nor revokable.
-- **Impatient User (interrupts & pastes junk):** **FAIL (Verdict: ✗ NO)**  
+- **Impatient User (interrupts & pastes junk):** **FAIL (Verdict: [FAIL] NO)**  
   *Why:* Pressing `Ctrl+C` immediately kills the session and dumps the user back to the OS shell instead of cancelling the current command. Pasting text with newlines causes cascading line submissions.
-- **CI / Script Author:** **FAIL (Verdict: ✗ NO)**  
+- **CI / Script Author:** **FAIL (Verdict: [FAIL] NO)**  
   *Why:* Non-interactive piping into `chat` or `tui` does not execute queries deterministically; there is no headless print mode (`-p` / `--non-interactive`).
 
 ---

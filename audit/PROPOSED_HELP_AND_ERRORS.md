@@ -127,7 +127,7 @@ All command-line errors must conform to the 4-part structure rendered to **STDER
   ```
 
 ### Error 3: Deletion of Nonexistent Ticket (`agent clean <id>`)
-- **Old:** `✔ Cleaned session and worktree for ticket #9999` (false positive).
+- **Old:** ` Cleaned session and worktree for ticket #9999` (false positive).
 - **Rewritten:**
   ```text
   ╭─ Cannot Clean Ticket ────────────────────────────────────────────────────────╮
